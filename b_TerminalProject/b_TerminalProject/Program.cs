@@ -1,5 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Management;
 using System.Reflection;
+using System.Diagnostics;
+
 
 namespace b_TerminalProject
 {
@@ -39,6 +46,56 @@ namespace b_TerminalProject
                     Console.Write(" \n");
                 }
             }
+        }
+
+        public void Minus()
+        {
+            string num;
+            double num1;
+            double num2;
+            bool isNum;
+
+            Console.WriteLine("Num1 = ");
+            num = Console.ReadLine();
+            isNum = double.TryParse(num, out num1);
+            if (isNum != true)
+            {
+                Console.WriteLine("This isn't number");
+                Minus();
+            }
+
+            else
+            {
+                Console.Write("Num2 = ");
+                num = Console.ReadLine();
+                isNum = double.TryParse(num, out num2);
+                if (isNum != true)
+                {
+                    Console.WriteLine("This isn't number");
+                    Minus();
+                }
+
+                else
+                {
+                    Console.Write("result is ");
+                    Console.Write(num1 - num2);
+                    Console.Write(" \n");
+                }
+            }
+        }
+
+        public void Convent()
+        {
+            Console.Write("Enter the string : ");
+            byte[] ascii = Encoding.ASCII.GetBytes(Console.ReadLine());
+
+            foreach (byte b in ascii)
+            {
+                Console.Write((string.Format("0x{0:x}", b)));
+                Console.Write(" ");
+                Console.WriteLine(((Char)b).ToString());
+            }
+
         }
     }
 
