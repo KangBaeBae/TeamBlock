@@ -1,7 +1,7 @@
-﻿<Properties StartupConfiguration="{BAE9DEF4-4523-4705-BA1F-89D51C9F9402}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="b_TerminalProject/Program.cs">
+﻿<Properties StartupConfiguration="{DAE97B54-4B8E-4613-B6F4-1AC41D679CD0}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KroglpProject/Program.cs">
     <Files>
-      <File FileName="b_TerminalProject/Program.cs" Line="172" Column="13" />
+      <File FileName="KroglpProject/Program.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
@@ -9,6 +9,6 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.b__TerminalProject PreferredExecutionTarget="MonoDevelop.Default" />
   <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.KroglpProject PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>
