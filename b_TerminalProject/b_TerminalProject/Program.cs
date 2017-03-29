@@ -57,6 +57,32 @@ namespace b_TerminalProject
 
     }
 
+    class Kernel
+    {
+        List<List<char>> memory = new List<List<char>>();
+
+        List<List<char>> Event = new List<List<char>>();
+
+
+        public void Input(string value)
+        {
+            List<char> inv = new List<char>(value.Trim().ToCharArray());
+            Event.Add(inv);
+
+            Compare();
+        }
+
+        public void Compare(List<char> target, List<char> mem)
+        {
+            for (int i = 0; i < target.Count; i++)
+            {
+                for (int j = 0; j < mem.Count; j++)
+                {
+                    
+                }
+            }
+        }
+    }
 
     class StandBy
     {
@@ -191,9 +217,102 @@ namespace b_TerminalProject
 
             Console.WriteLine("\nRestored type : " + d_sc.ToString());
 
+
         }
     
-    
+
+
+        // 
+        public void ArrayToString()
+        {
+            string[] array = new string[] { "Hi", "My", "Name", "Apple" };
+
+
+
+            StringBuilder builder = new StringBuilder();
+
+            Console.Write("Array : ");
+
+            foreach (string value in array)
+            {
+                Console.Write(value + " ");
+                builder.Append(value);
+                builder.Append("3");
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("String : " + builder.ToString());
+        }
+
+
+        // 간단한 문자열 비교
+        /*
+        public void StringCompare()
+        {
+            string root = "Direct";
+            string root2 = "direct";
+
+            bool result = root.Equals(root2, StringComparison.Ordinal);
+
+            Console.WriteLine("Ordinal comparison: {0} and {1} are {2}", root, root2,
+                                result ? "equal." : "not equal.");
+        }
+        */
+
+
+        // 데이터 두개를 입력받으면 유사도를 측정한다.
+        public void Compare()
+        {
+            int[,] array = new int[1001, 1001];
+
+            Console.Write("Enter the data : ");
+            string value1 = Console.ReadLine();
+
+            Console.Write("Enter the data : ");
+            string value2 = Console.ReadLine();
+            Console.WriteLine("");
+
+            char[] st_arr1 = value1.Trim().ToCharArray();
+            char[] st_arr2 = value2.Trim().ToCharArray();
+
+            for (int i = 1; i < st_arr1.Length; i++)
+                array[i, 0] = i;
+
+            for (int i = 1; i < st_arr2.Length; i++)
+                array[0, i] = i;
+
+
+            for (int i = 1; i < st_arr1.Length; i++)
+            {
+                for (int j = 1; j < st_arr2.Length; j++)
+                {
+                    if (st_arr1[i - 1] == st_arr2[j - 1]) array[i, j] = array[i - 1, j - 1];
+                    else array[i, j] = Math.Min(array[i - 1, j - 1] + 1, Math.Min(array[i, j - 1] + 1, array[i - 1, j] + 1));
+                }
+            }
+
+
+            for (int i = 0; i < st_arr1.Length; i++)
+            {
+                for (int j = 0; j < st_arr2.Length; j++)
+                {
+                    Console.Write(array[i, j] + "\t");
+                }
+                Console.WriteLine("");
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("Last Num : " + array[st_arr1.Length - 1, st_arr2.Length - 1]);
+
+
+
+
+
+
+                   
+        }
+
+
     }
 
   

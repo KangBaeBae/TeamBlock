@@ -3,39 +3,21 @@ using System.Collections.Generic;
 
 namespace KroglpProject
 {
-    class Pipe
-    {
-        public void Recognize(string[] value)
-        {
-            
-        }
-    }
 
     class Kernel
     {
-        class Consciousness
+        List<List<string>> Memory = new List<List<string>>();
+
+        public List<string> Compare(string[] value)
         {
-            List<List<string>> memory = new List<List<string>>();
+            List<string> target = new List<string>();
 
-            public void Add(List<string> value)
-            {
-                memory.Add(value);
-            }
+            foreach (string element in value)
+                target.Add(element);
 
-            List<string> Search(int Index)
-            {
-                return memory[Index];
-            }
-        }
+            Memory.Add(target);
 
-        class UnConsciousness
-        {
-            
-        }
 
-        public void Compare()
-        {
-            
         }
     }
 
