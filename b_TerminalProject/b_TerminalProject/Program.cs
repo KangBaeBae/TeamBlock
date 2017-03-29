@@ -44,11 +44,6 @@ namespace b_TerminalProject
             }
         }
 
-        public override string ToString()
-        {
-            return string.Format("[SerilizableClass: Name={0}, Value={1}]", Name, Value);
-        }
-
         public SerializableClass(string Value1, double Value2)
         {
             Name = Value1;
@@ -69,7 +64,7 @@ namespace b_TerminalProject
             List<char> inv = new List<char>(value.Trim().ToCharArray());
             Event.Add(inv);
 
-            Compare();
+
         }
 
         public void Compare(List<char> target, List<char> mem)
@@ -275,16 +270,16 @@ namespace b_TerminalProject
             char[] st_arr1 = value1.Trim().ToCharArray();
             char[] st_arr2 = value2.Trim().ToCharArray();
 
-            for (int i = 1; i < st_arr1.Length; i++)
+            for (int i = 1; i <= st_arr1.Length; i++)
                 array[i, 0] = i;
 
-            for (int i = 1; i < st_arr2.Length; i++)
+            for (int i = 1; i <= st_arr2.Length; i++)
                 array[0, i] = i;
 
 
-            for (int i = 1; i < st_arr1.Length; i++)
+            for (int i = 1; i <= st_arr1.Length; i++)
             {
-                for (int j = 1; j < st_arr2.Length; j++)
+                for (int j = 1; j <= st_arr2.Length; j++)
                 {
                     if (st_arr1[i - 1] == st_arr2[j - 1]) array[i, j] = array[i - 1, j - 1];
                     else array[i, j] = Math.Min(array[i - 1, j - 1] + 1, Math.Min(array[i, j - 1] + 1, array[i - 1, j] + 1));
@@ -292,9 +287,9 @@ namespace b_TerminalProject
             }
 
 
-            for (int i = 0; i < st_arr1.Length; i++)
+            for (int i = 0; i <= st_arr1.Length; i++)
             {
-                for (int j = 0; j < st_arr2.Length; j++)
+                for (int j = 0; j <= st_arr2.Length; j++)
                 {
                     Console.Write(array[i, j] + "\t");
                 }
@@ -302,15 +297,39 @@ namespace b_TerminalProject
             }
 
             Console.WriteLine("");
-            Console.WriteLine("Last Num : " + array[st_arr1.Length - 1, st_arr2.Length - 1]);
-
-
-
-
-
-
-                   
+            // array[st_arr1.Length - 1, st_arr2.Length - 1] == 유사도 결과값.
+            Console.WriteLine("Last Num : " + array[st_arr1.Length, st_arr2.Length]);
+            Console.WriteLine("Return : " + Compare(value1, value2));
         }
+
+        int Compare(string value1, string value2)
+        {
+            int[,] array = new int[1001, 1001];
+
+            char[] arr1 = value1.Trim().ToCharArray();
+            char[] arr2 = value2.Trim().ToCharArray();
+
+
+            for (int i = 1; i <= arr1.Length; i++)
+                array[i, 0] = i;
+
+            for (int i = 1; i <= arr2.Length; i++)
+                array[0, i] = i;
+
+
+            for (int i = 1; i <= arr1.Length; i++)
+            {
+                for (int j = 1; j <= arr2.Length; j++)
+                {
+                    if (arr1[i - 1] == arr2[j - 1]) array[i, j] = array[i - 1, j - 1];
+                    else array[i, j] = Math.Min(array[i - 1, j - 1] + 1, Math.Min(array[i, j - 1] + 1, array[i - 1, j] + 1));
+                }
+            }
+
+            return array[arr1.Length, arr2.Length];
+        }
+
+
 
 
     }
