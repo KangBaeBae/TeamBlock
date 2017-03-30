@@ -214,7 +214,75 @@ namespace b_TerminalProject
 
 
         }
-    
+
+        public void Clean()
+        {
+            for (int i = 0; i < 80; i ++)
+            {
+                Console.WriteLine("");
+            }
+        }
+
+        public void Combine()
+        {
+            Console.Write("Enter value : ");
+            string value1 = Console.ReadLine();
+
+            Console.Write("Enter value : ");
+            string value2 = Console.ReadLine();
+
+            char[] arr1 = value1.Trim().ToCharArray();
+            char[] arr2 = value2.Trim().ToCharArray();
+            List<char> arr3 = new List<char>();
+
+            Console.Write("Origin : ");
+            for (int i = 0; i < arr1.Length; i++)
+                Console.Write(arr1[i] + " ");
+            Console.WriteLine();
+
+            Console.Write("Origin : ");
+            for (int i = 0; i < arr2.Length; i++)
+                Console.Write(arr2[i] + " ");
+            Console.WriteLine();
+
+
+            for (int i = 0; i < arr1.Length; i++)
+                if (IsInclude(arr2, arr1[i]) == false && IsInclude(arr3, arr1[i]) == false)
+                    arr3.Add(arr1[i]);
+            
+
+            for (int i = 0; i < arr2.Length; i++)
+                if (IsInclude(arr1, arr2[i]) == false && IsInclude(arr3, arr2[i]) == false)
+                    arr3.Add(arr2[i]);
+
+            Console.Write("Convent : ");
+            for (int i = 0; i < arr3.Count; i++)
+                Console.Write(arr3[i] + " ");
+            Console.WriteLine();
+
+
+        }
+
+        bool IsInclude(char[] array, char value)
+        {
+            bool bl = false;
+            for (int i = 0; i < array.Length; i++)
+                if (array[i] == value)
+                    bl = true;
+
+            return bl;
+        }
+
+        bool IsInclude(List<char> array, char value)
+        {
+            bool bl = false;
+            for (int i = 0; i < array.Count; i++)
+                if (array[i] == value)
+                    bl = true;
+
+            return bl;
+        }
+
 
 
         // 
@@ -297,7 +365,7 @@ namespace b_TerminalProject
             }
 
             Console.WriteLine("");
-            // array[st_arr1.Length - 1, st_arr2.Length - 1] == 유사도 결과값.
+            // array[st_arr1.Length, st_arr2.Length] == 유사도 결과값.
             Console.WriteLine("Last Num : " + array[st_arr1.Length, st_arr2.Length]);
             Console.WriteLine("Return : " + Compare(value1, value2));
         }
@@ -328,6 +396,7 @@ namespace b_TerminalProject
 
             return array[arr1.Length, arr2.Length];
         }
+
 
 
 
