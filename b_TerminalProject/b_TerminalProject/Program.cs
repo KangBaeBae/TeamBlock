@@ -12,76 +12,102 @@ using System.IO;
 
 namespace b_TerminalProject
 {
-    [Serializable]
-    class SerializableClass
-    {
-        string _name;
-        double _value;
-
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-
-            set
-            {
-                _name = value;
-            }
-        }
-
-        public double Value
-        {
-            get
-            {
-                return _value;
-            }
-
-            set
-            {
-                _value = value;
-            }
-        }
-
-        public SerializableClass(string Value1, double Value2)
-        {
-            Name = Value1;
-            Value = Value2;
-        }
-
-    }
-
-    class Kernel
-    {
-        List<List<char>> memory = new List<List<char>>();
-
-        List<List<char>> Event = new List<List<char>>();
-
-
-        public void Input(string value)
-        {
-            List<char> inv = new List<char>(value.Trim().ToCharArray());
-            Event.Add(inv);
-
-
-        }
-
-        public void Compare(List<char> target, List<char> mem)
-        {
-            for (int i = 0; i < target.Count; i++)
-            {
-                for (int j = 0; j < mem.Count; j++)
-                {
-                    
-                }
-            }
-        }
-    }
 
     class StandBy
     {
-        
+
+        #region Kernel
+
+        public void Combine()
+        {
+            Console.Write("Enter value : ");
+            string value1 = Console.ReadLine();
+
+            Console.Write("Enter value : ");
+            string value2 = Console.ReadLine();
+
+            char[] arr1 = value1.Trim().ToCharArray();
+            char[] arr2 = value2.Trim().ToCharArray();
+            List<char> arr3 = new List<char>();
+
+            Console.Write("Origin : ");
+            for (int i = 0; i < arr1.Length; i++)
+                Console.Write(arr1[i] + " ");
+            Console.WriteLine();
+
+            Console.Write("Origin : ");
+            for (int i = 0; i < arr2.Length; i++)
+                Console.Write(arr2[i] + " ");
+            Console.WriteLine();
+
+
+            for (int i = 0; i < arr1.Length; i++)
+                if (IsInclude(arr2, arr1[i]) == false && IsInclude(arr3, arr1[i]) == false)
+                    arr3.Add(arr1[i]);
+
+
+            for (int i = 0; i < arr2.Length; i++)
+                if (IsInclude(arr1, arr2[i]) == false && IsInclude(arr3, arr2[i]) == false)
+                    arr3.Add(arr2[i]);
+
+            Console.Write("Convent : ");
+            for (int i = 0; i < arr3.Count; i++)
+                Console.Write(arr3[i] + " ");
+            Console.WriteLine();
+
+
+        }
+
+        public void Compare()
+        {
+            int[,] array = new int[1001, 1001];
+
+            Console.Write("Enter the data : ");
+            string value1 = Console.ReadLine();
+
+            Console.Write("Enter the data : ");
+            string value2 = Console.ReadLine();
+            Console.WriteLine("");
+
+            char[] st_arr1 = value1.Trim().ToCharArray();
+            char[] st_arr2 = value2.Trim().ToCharArray();
+
+            for (int i = 1; i <= st_arr1.Length; i++)
+                array[i, 0] = i;
+
+            for (int i = 1; i <= st_arr2.Length; i++)
+                array[0, i] = i;
+
+
+            for (int i = 1; i <= st_arr1.Length; i++)
+            {
+                for (int j = 1; j <= st_arr2.Length; j++)
+                {
+                    if (st_arr1[i - 1] == st_arr2[j - 1]) array[i, j] = array[i - 1, j - 1];
+                    else array[i, j] = Math.Min(array[i - 1, j - 1] + 1, Math.Min(array[i, j - 1] + 1, array[i - 1, j] + 1));
+                }
+            }
+
+
+            for (int i = 0; i <= st_arr1.Length; i++)
+            {
+                for (int j = 0; j <= st_arr2.Length; j++)
+                {
+                    Console.Write(array[i, j] + "\t");
+                }
+                Console.WriteLine("");
+            }
+
+            Console.WriteLine("");
+            // array[st_arr1.Length, st_arr2.Length] == 유사도 결과값.
+            Console.WriteLine("Last Num : " + array[st_arr1.Length, st_arr2.Length]);
+            Console.WriteLine("Return : " + Compare(value1, value2));
+        }
+
+        #endregion
+
+        #region General
+
         public void Add()
         {
             string num;
@@ -177,43 +203,6 @@ namespace b_TerminalProject
             Console.WriteLine(Encoding.ASCII.GetString(ascii));
 
         }
-   
-        public void Serialization()
-        {
-            Console.WriteLine("Serialization Section Start");
-
-            Console.Write("Enter the string : ");
-            string value1 = Console.ReadLine();
-
-            Console.Write("Enter the Number : ");
-            double value2 = double.Parse(Console.ReadLine());
-
-            SerializableClass sc = new SerializableClass(value1, value2);
-            Console.Write("Original type : " + sc.ToString());
-
-
-            Stream stream = File.Open("data.block", FileMode.Create);
-
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, sc);
-
-            stream.Close();
-
-            Console.Write("\nEnter new Name : ");
-            sc.Name = Console.ReadLine();
-
-            Console.Write("Convented type : " + sc.ToString());
-            sc = null;
-
-            stream = File.Open("data.block", FileMode.Open);
-
-            SerializableClass d_sc = (SerializableClass)formatter.Deserialize(stream);
-            stream.Close();
-
-            Console.WriteLine("\nRestored type : " + d_sc.ToString());
-
-
-        }
 
         public void Clean()
         {
@@ -223,69 +212,6 @@ namespace b_TerminalProject
             }
         }
 
-        public void Combine()
-        {
-            Console.Write("Enter value : ");
-            string value1 = Console.ReadLine();
-
-            Console.Write("Enter value : ");
-            string value2 = Console.ReadLine();
-
-            char[] arr1 = value1.Trim().ToCharArray();
-            char[] arr2 = value2.Trim().ToCharArray();
-            List<char> arr3 = new List<char>();
-
-            Console.Write("Origin : ");
-            for (int i = 0; i < arr1.Length; i++)
-                Console.Write(arr1[i] + " ");
-            Console.WriteLine();
-
-            Console.Write("Origin : ");
-            for (int i = 0; i < arr2.Length; i++)
-                Console.Write(arr2[i] + " ");
-            Console.WriteLine();
-
-
-            for (int i = 0; i < arr1.Length; i++)
-                if (IsInclude(arr2, arr1[i]) == false && IsInclude(arr3, arr1[i]) == false)
-                    arr3.Add(arr1[i]);
-            
-
-            for (int i = 0; i < arr2.Length; i++)
-                if (IsInclude(arr1, arr2[i]) == false && IsInclude(arr3, arr2[i]) == false)
-                    arr3.Add(arr2[i]);
-
-            Console.Write("Convent : ");
-            for (int i = 0; i < arr3.Count; i++)
-                Console.Write(arr3[i] + " ");
-            Console.WriteLine();
-
-
-        }
-
-        bool IsInclude(char[] array, char value)
-        {
-            bool bl = false;
-            for (int i = 0; i < array.Length; i++)
-                if (array[i] == value)
-                    bl = true;
-
-            return bl;
-        }
-
-        bool IsInclude(List<char> array, char value)
-        {
-            bool bl = false;
-            for (int i = 0; i < array.Count; i++)
-                if (array[i] == value)
-                    bl = true;
-
-            return bl;
-        }
-
-
-
-        // 
         public void ArrayToString()
         {
             string[] array = new string[] { "Hi", "My", "Name", "Apple" };
@@ -307,67 +233,28 @@ namespace b_TerminalProject
             Console.WriteLine("String : " + builder.ToString());
         }
 
+        #endregion
 
-        // 간단한 문자열 비교
-        /*
-        public void StringCompare()
+        #region private
+
+        bool IsInclude(char[] array, char value)
         {
-            string root = "Direct";
-            string root2 = "direct";
+            bool bl = false;
+            for (int i = 0; i < array.Length; i++)
+                if (array[i] == value)
+                    bl = true;
 
-            bool result = root.Equals(root2, StringComparison.Ordinal);
-
-            Console.WriteLine("Ordinal comparison: {0} and {1} are {2}", root, root2,
-                                result ? "equal." : "not equal.");
+            return bl;
         }
-        */
 
-
-        // 데이터 두개를 입력받으면 유사도를 측정한다.
-        public void Compare()
+        bool IsInclude(List<char> array, char value)
         {
-            int[,] array = new int[1001, 1001];
+            bool bl = false;
+            for (int i = 0; i < array.Count; i++)
+                if (array[i] == value)
+                    bl = true;
 
-            Console.Write("Enter the data : ");
-            string value1 = Console.ReadLine();
-
-            Console.Write("Enter the data : ");
-            string value2 = Console.ReadLine();
-            Console.WriteLine("");
-
-            char[] st_arr1 = value1.Trim().ToCharArray();
-            char[] st_arr2 = value2.Trim().ToCharArray();
-
-            for (int i = 1; i <= st_arr1.Length; i++)
-                array[i, 0] = i;
-
-            for (int i = 1; i <= st_arr2.Length; i++)
-                array[0, i] = i;
-
-
-            for (int i = 1; i <= st_arr1.Length; i++)
-            {
-                for (int j = 1; j <= st_arr2.Length; j++)
-                {
-                    if (st_arr1[i - 1] == st_arr2[j - 1]) array[i, j] = array[i - 1, j - 1];
-                    else array[i, j] = Math.Min(array[i - 1, j - 1] + 1, Math.Min(array[i, j - 1] + 1, array[i - 1, j] + 1));
-                }
-            }
-
-
-            for (int i = 0; i <= st_arr1.Length; i++)
-            {
-                for (int j = 0; j <= st_arr2.Length; j++)
-                {
-                    Console.Write(array[i, j] + "\t");
-                }
-                Console.WriteLine("");
-            }
-
-            Console.WriteLine("");
-            // array[st_arr1.Length, st_arr2.Length] == 유사도 결과값.
-            Console.WriteLine("Last Num : " + array[st_arr1.Length, st_arr2.Length]);
-            Console.WriteLine("Return : " + Compare(value1, value2));
+            return bl;
         }
 
         int Compare(string value1, string value2)
@@ -397,9 +284,7 @@ namespace b_TerminalProject
             return array[arr1.Length, arr2.Length];
         }
 
-
-
-
+        #endregion
 
     }
 
