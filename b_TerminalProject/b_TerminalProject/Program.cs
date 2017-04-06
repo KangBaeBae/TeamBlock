@@ -10,6 +10,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 
+
 namespace b_TerminalProject
 {
 
@@ -40,15 +41,45 @@ namespace b_TerminalProject
                 Console.Write(arr2[i] + " ");
             Console.WriteLine();
 
-
+            // Simple Compare
+            /*
             for (int i = 0; i < arr1.Length; i++)
-                if (IsInclude(arr2, arr1[i]) == false && IsInclude(arr3, arr1[i]) == false)
+            {
+                if (IsInclude(arr3, arr1[i]) == false)
+                {
                     arr3.Add(arr1[i]);
 
+                    if (i < arr2.Length && IsInclude(arr3, arr2[i]) == false)
+                        arr3.Add(arr2[i]);
+                }
+            }
 
-            for (int i = 0; i < arr2.Length; i++)
-                if (IsInclude(arr1, arr2[i]) == false && IsInclude(arr3, arr2[i]) == false)
+            for (int i = arr1.Length; i < arr2.Length; i++)
+            {
+                if (IsInclude(arr3, arr2[i]) == false)
                     arr3.Add(arr2[i]);
+            }
+            */
+
+            // True == One Add , False == Two Add
+
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                if (arr1[i] == arr2[i])
+                    arr3.Add(arr1[i]);
+
+                else
+                {
+                    arr3.Add(arr1[i]);
+                    arr3.Add(arr2[i]);
+                }
+            }
+
+            for (int i = arr1.Length; i < arr2.Length; i++)
+            {
+                arr3.Add(arr2[i]);
+            }
+
 
             Console.Write("Convent : ");
             for (int i = 0; i < arr3.Count; i++)
@@ -284,6 +315,44 @@ namespace b_TerminalProject
             return array[arr1.Length, arr2.Length];
         }
 
+
+        void Combine(string value1, string value2)
+        {
+            char[] arr1 = value1.Trim().ToCharArray();
+            char[] arr2 = value2.Trim().ToCharArray();
+            List<char> arr3 = new List<char>();
+
+
+            for (int i = 0; i < arr1.Length; i++)
+                if (IsInclude(arr3, arr1[i]) == false)
+                    arr3.Add(arr1[i]);
+
+
+            for (int i = 0; i < arr2.Length; i++)
+                if (IsInclude(arr3, arr2[i]) == false)
+                    arr3.Add(arr2[i]);
+
+
+
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                if (IsInclude(arr3, arr1[i]) == false)
+                {
+                    arr3.Add(arr1[i]);
+
+                    if (i <= arr2.Length && IsInclude(arr3, arr2[i]) == false)
+                        arr3.Add(arr2[i]);
+                }
+            }
+
+            for (int i = arr1.Length - 1; i < arr2.Length; i++)
+            {
+                if (IsInclude(arr3, arr1[i]) == false)
+                    arr3.Add(arr2[i]);
+            }
+            
+        }
+
         #endregion
 
     }
@@ -327,6 +396,8 @@ namespace b_TerminalProject
             {
                 Console.WriteLine("*There is no function with the same name as the name you entered");
             }
+
+
 
         }
 
