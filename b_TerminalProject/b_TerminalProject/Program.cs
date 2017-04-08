@@ -21,6 +21,27 @@ namespace b_TerminalProject
 
         public void Combine()
         {
+            Console.Write("Set format : ");
+            string value = Console.ReadLine();
+
+            if (value == "string")
+                Combine_String();
+
+            else if (value == "bool")
+                Combine_Bool();
+
+            else if (value == "quit"){}
+
+            else
+            {
+                Console.WriteLine("The value you entered is invalid. Please re-enter");
+                Combine();
+            }
+
+        }
+
+        void Combine_String()
+        {
             Console.Write("Enter value : ");
             string value1 = Console.ReadLine();
 
@@ -41,43 +62,29 @@ namespace b_TerminalProject
                 Console.Write(arr2[i] + " ");
             Console.WriteLine();
 
-            // Simple Compare
-            /*
             for (int i = 0; i < arr1.Length; i++)
             {
-                if (IsInclude(arr3, arr1[i]) == false)
+                if (i >= arr2.Length)
+                    arr3.Add(arr1[i]);
+
+                else if (arr1[i] == arr2[i])
+                    arr3.Add(arr1[i]);
+
+                else
                 {
                     arr3.Add(arr1[i]);
 
-                    if (i < arr2.Length && IsInclude(arr3, arr2[i]) == false)
+                    if (i < arr2.Length)
+
                         arr3.Add(arr2[i]);
                 }
             }
 
             for (int i = arr1.Length; i < arr2.Length; i++)
             {
-                if (IsInclude(arr3, arr2[i]) == false)
+                if (i < arr2.Length)
+
                     arr3.Add(arr2[i]);
-            }
-            */
-
-            // True == One Add , False == Two Add
-
-            for (int i = 0; i < arr1.Length; i++)
-            {
-                if (arr1[i] == arr2[i])
-                    arr3.Add(arr1[i]);
-
-                else
-                {
-                    arr3.Add(arr1[i]);
-                    arr3.Add(arr2[i]);
-                }
-            }
-
-            for (int i = arr1.Length; i < arr2.Length; i++)
-            {
-                arr3.Add(arr2[i]);
             }
 
 
@@ -85,8 +92,61 @@ namespace b_TerminalProject
             for (int i = 0; i < arr3.Count; i++)
                 Console.Write(arr3[i] + " ");
             Console.WriteLine();
+        }
+
+        void Combine_Bool()
+        {
+            Console.Write("Enter value : ");
+            string value1 = Console.ReadLine();
+
+            Console.Write("Enter value : ");
+            string value2 = Console.ReadLine();
+
+            List<bool> arr1 = Tobool(value1);
+            List<bool> arr2 = Tobool(value2);
+            List<bool> arr3 = new List<bool>();
 
 
+            Console.Write("Origin : ");
+            for (int i = 0; i < arr1.Count; i++)
+                Console.Write(arr1[i] + " ");
+            Console.WriteLine();
+
+            Console.Write("Origin : ");
+            for (int i = 0; i < arr2.Count; i++)
+                Console.Write(arr2[i] + " ");
+            Console.WriteLine();
+
+            for (int i = 0; i < arr1.Count; i++)
+            {
+                if (i >= arr2.Count)
+                    arr3.Add(arr1[i]);
+
+                else if (arr1[i] == arr2[i])
+                    arr3.Add(arr1[i]);
+
+                else
+                {
+                    arr3.Add(arr1[i]);
+
+                    if (i < arr2.Count)
+
+                        arr3.Add(arr2[i]);
+                }
+            }
+
+            for (int i = arr1.Count; i < arr2.Count; i++)
+            {
+                if (i < arr2.Count)
+
+                    arr3.Add(arr2[i]);
+            }
+
+
+            Console.Write("Convent : ");
+            for (int i = 0; i < arr3.Count; i++)
+                Console.Write(arr3[i] + " ");
+            Console.WriteLine();
         }
 
         public void Compare()
@@ -316,7 +376,7 @@ namespace b_TerminalProject
         }
 
 
-        void Combine(string value1, string value2)
+        List<char> Combine(string value1, string value2)
         {
             char[] arr1 = value1.Trim().ToCharArray();
             char[] arr2 = value2.Trim().ToCharArray();
@@ -334,24 +394,105 @@ namespace b_TerminalProject
 
 
 
-            for (int i = 0; i < arr1.Length; i++)
+            for (int i = 0; i<arr1.Length; i++)
             {
-                if (IsInclude(arr3, arr1[i]) == false)
+                if (i >= arr2.Length)
+                    arr3.Add(arr1[i]);
+
+                else if (arr1[i] == arr2[i])
+                    arr3.Add(arr1[i]);
+
+                else
                 {
                     arr3.Add(arr1[i]);
 
-                    if (i <= arr2.Length && IsInclude(arr3, arr2[i]) == false)
-                        arr3.Add(arr2[i]);
+                    if (i < arr2.Length)
+						arr3.Add(arr2[i]);
                 }
             }
 
-            for (int i = arr1.Length - 1; i < arr2.Length; i++)
+            for (int i = arr1.Length; i<arr2.Length; i++)
             {
-                if (IsInclude(arr3, arr1[i]) == false)
-                    arr3.Add(arr2[i]);
+                if (i<arr2.Length)
+					arr3.Add(arr2[i]);
             }
+
+            return arr3;
             
         }
+
+        List<bool> Combine(List<bool> value1, List<bool> value2)
+        {
+            List<bool> arr = new List<bool>();
+
+            for (int i = 0; i < value1.Count; i++)
+            {
+                if (i >= value2.Count)
+                    arr.Add(value1[i]);
+
+                else if (value1[i] == value2[i])
+                    arr.Add(value1[i]);
+
+                else
+                {
+                    arr.Add(value1[i]);
+
+                    if (i < value2.Count)
+                        arr.Add(value2[i]);
+                }
+            }
+
+            return arr;
+        }
+
+        List<bool> Tobool(string value)
+        {
+            List<bool> arr = new List<bool>();
+
+            List<char> _value = new List<char>(value.Trim().ToCharArray());
+
+            for (int i = 0; i < _value.Count; i++)
+            {
+                if (_value[i].ToString() == "0")
+                    arr.Add(false);
+
+                else if (_value[i].ToString() == "1")
+                    arr.Add(true);
+
+                else
+                    break;
+            }
+
+            if (arr.Count == value.Length)
+                return arr;
+
+            else
+                return null;
+        }
+
+        List<bool> Tobool(int[] value)
+        {
+            List<bool> arr = new List<bool>();
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                if (value[i] == 0)
+                    arr.Add(false);
+
+                else if (value[i] == 1)
+                    arr.Add(true);
+
+                else
+                    break;
+            }
+
+            if (arr.Count == value.Length)
+                return arr;
+
+            else
+                return null;
+        }
+
 
         #endregion
 
@@ -377,10 +518,7 @@ namespace b_TerminalProject
                 Stand();
             }
 
-            else
-            {
-
-            }
+            else {}
         }
 
         static void Search(string value)
