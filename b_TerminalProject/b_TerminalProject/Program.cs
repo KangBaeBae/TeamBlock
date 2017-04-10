@@ -493,6 +493,41 @@ namespace b_TerminalProject
                 return null;
         }
 
+        List<List<bool>> dimension_two(List<bool> _eve, List<bool> _mem)
+        {
+            List<List<bool>> val = new List<List<bool>>();
+            List<bool> index;
+            List<bool> instance;
+
+            for (int i = 0; i < _eve.Count; i++)
+            {
+                index = null;
+                index = new List<bool>();
+
+                for (int j = 0; j < _mem.Count; j++)
+                {
+                    if (_eve[i] == _mem[j])
+                        index.Add(true);
+
+                    else
+                        index.Add(false);
+                }
+
+                for (int j = 0; j < index.Count; j++)
+                {
+                    if (j > 0)
+                    {
+                        if (index[j] == true)
+                        {
+                            
+                        }
+                    }
+                }
+            }
+
+            return val;
+        }
+
 
         #endregion
 
