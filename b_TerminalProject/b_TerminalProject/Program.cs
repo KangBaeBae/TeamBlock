@@ -493,37 +493,96 @@ namespace b_TerminalProject
                 return null;
         }
 
-        List<List<bool>> dimension_two(List<bool> _eve, List<bool> _mem)
+        List<List<bool>> Formatting(List<bool> target, List<bool> criterion)
         {
             List<List<bool>> val = new List<List<bool>>();
-            List<bool> index;
-            List<bool> instance;
+            List<bool> ist = new List<bool>();
 
-            for (int i = 0; i < _eve.Count; i++)
+            bool IsDone = false;
+            int IndexLast = 0;
+
+            int IndexEqual = 0;
+            int CountEqual = 0;
+
+            while (IsDone != true)
             {
-                index = null;
-                index = new List<bool>();
+                
 
-                for (int j = 0; j < _mem.Count; j++)
+                for (int i = 0; i < target.Count; i++)
                 {
-                    if (_eve[i] == _mem[j])
-                        index.Add(true);
-
-                    else
-                        index.Add(false);
-                }
-
-                for (int j = 0; j < index.Count; j++)
-                {
-                    if (j > 0)
+                    
+                    if (target[i] == criterion[IndexLast])
                     {
-                        if (index[j] == true)
+                        bool IsEqual = true;
+                        int _index = i;
+
+                        while (IsEqual == true)
                         {
-                            
+                            if (target[_index] == criterion[IndexLast])
+                            {
+                                ist.Add(target[_index]);
+                                _index++;
+                            }
+
+                            else
+                                IsEqual = false;
                         }
+
+                        if (CountEqual < ist.Count)
+                        {
+                            CountEqual = ist.Count;
+                            IndexEqual = i;
+                        }
+
+                        ist = null;
+                        ist = new List<bool>();
                     }
                 }
+
+                bool IsEqualfmt = true;
+
+                for (int i = 0; IsEqualfmt == true; i++)
+                {
+                    if (IndexLast + i < criterion.Count)
+                    {
+                        if (criterion[IndexLast + i] == target[IndexEqual + i])
+                            ist.Add(target[IndexEqual + i]);
+
+                        else
+                        {
+                            IsEqualfmt = false;
+                            IndexEqual += i;
+                            IndexLast += i;
+                        }
+                    }
+
+                    else
+                        IsDone = false;
+                }
+
+                for (int i = 0; IsEqualfmt != true; i++)
+                {
+                    if (IndexLast + i < criterion.Count)
+                    {
+                        if (criterion[IndexLast + i] != target[IndexEqual + i])
+                            ist.Add(target[IndexEqual + i]);
+
+                        else
+                        {
+                            IsEqualfmt = true;
+                            IndexLast += i;
+                        }
+                    }
+
+                    else
+                        IsDone = false;
+                }
+
+                val.Add(ist);
+                ist = null;
+                ist = new List<bool>();
             }
+
 
             return val;
         }
