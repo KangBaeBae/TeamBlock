@@ -195,6 +195,46 @@ namespace b_TerminalProject
             Console.WriteLine("Return : " + Compare(value1, value2));
         }
 
+        public void Format()
+        {
+            Console.Write("Enter value : ");
+            string value1 = Console.ReadLine();
+
+            Console.Write("Enter value : ");
+            string value2 = Console.ReadLine();
+
+            List<bool> arr1 = Tobool(value1);
+            List<bool> arr2 = Tobool(value2);
+
+
+            List<List<bool>> fm_arr1 = Formatting(arr1, arr2);
+            List<List<bool>> fm_arr2 = Formatting(arr2, arr1);
+            /*
+            for (int i = 0; i < fm_arr1.Count; i++)
+            {
+                Console.WriteLine("Arr1 Index : " + i);
+                for (int j = 0; j < fm_arr1[i].Count; j++)
+                {
+                    Console.Write(fm_arr1[i][j] + " ");
+                }
+            }
+
+            Console.WriteLine();
+
+            for (int i = 0; i<fm_arr2.Count; i++)
+            {
+                Console.WriteLine("Arr2 Index : " + i);
+                for (int j = 0; j<fm_arr2[i].Count; j++)
+                {
+                    Console.Write(fm_arr2[i][j] + " ");
+                }
+            }
+
+            Console.WriteLine();
+            */
+
+        }
+
         #endregion
 
         #region General
@@ -499,39 +539,43 @@ namespace b_TerminalProject
             List<bool> ist = new List<bool>();
 
             bool IsDone = false;
-            int IndexLast = 0;
+            int IndexCrite = 0;
 
-            int IndexEqual = 0;
-            int CountEqual = 0;
+            int IndexTarget = 0;
+            int CountTarget = 0;
 
             while (IsDone != true)
             {
-                
-
                 for (int i = 0; i < target.Count; i++)
                 {
                     
-                    if (target[i] == criterion[IndexLast])
+                    if (target[i] == criterion[IndexCrite])
                     {
                         bool IsEqual = true;
                         int _index = i;
 
                         while (IsEqual == true)
                         {
-                            if (target[_index] == criterion[IndexLast])
+                            if (_index < target.Count && _index < criterion.Count)
                             {
-                                ist.Add(target[_index]);
-                                _index++;
+                                if (target[_index] == criterion[IndexCrite])
+                                {
+                                    ist.Add(target[_index]);
+                                    _index++;
+                                }
+
+                                else
+                                    IsEqual = false;
                             }
 
                             else
                                 IsEqual = false;
                         }
 
-                        if (CountEqual < ist.Count)
+                        if (CountTarget < ist.Count)
                         {
-                            CountEqual = ist.Count;
-                            IndexEqual = i;
+                            CountTarget = ist.Count;
+                            IndexTarget = i;
                         }
 
                         ist = null;
@@ -543,44 +587,67 @@ namespace b_TerminalProject
 
                 for (int i = 0; IsEqualfmt == true; i++)
                 {
-                    if (IndexLast + i < criterion.Count)
+                    
+                    if (IndexCrite + i < criterion.Count || IndexCrite + i < target.Count)
                     {
-                        if (criterion[IndexLast + i] == target[IndexEqual + i])
-                            ist.Add(target[IndexEqual + i]);
+                        if (criterion[IndexCrite + i] == target[IndexTarget + i])
+                            ist.Add(target[IndexTarget + i]);
 
                         else
                         {
                             IsEqualfmt = false;
-                            IndexEqual += i;
-                            IndexLast += i;
+                            IndexTarget += i;
+                            IndexCrite += i;
                         }
                     }
 
                     else
-                        IsDone = false;
+                    {
+                        IsEqualfmt = false;
+                        IndexTarget += i - 1;
+                        IndexCrite += i - 1;
+                    }
                 }
 
                 for (int i = 0; IsEqualfmt != true; i++)
                 {
-                    if (IndexLast + i < criterion.Count)
+                    if (IndexCrite + i < criterion.Count || IndexCrite + i < target.Count)
                     {
-                        if (criterion[IndexLast + i] != target[IndexEqual + i])
-                            ist.Add(target[IndexEqual + i]);
+                        if (criterion[IndexCrite + i] != target[IndexTarget + i])
+                            ist.Add(target[IndexTarget + i]);
 
                         else
                         {
+                            ist.Add(target[IndexTarget + i]);
+
                             IsEqualfmt = true;
-                            IndexLast += i;
+                            IndexCrite += i;
                         }
                     }
 
                     else
-                        IsDone = false;
+                    {
+                        IsEqualfmt = true;
+                        IndexCrite += i - 1;
+
+
+
+                    }
                 }
+
+
 
                 val.Add(ist);
                 ist = null;
                 ist = new List<bool>();
+            }
+
+            while (IsDone != true)
+            {
+                for (int i = 0; i < target.Count; i++)
+                {
+                    
+                }
             }
 
 
