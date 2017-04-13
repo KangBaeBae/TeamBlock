@@ -209,7 +209,7 @@ namespace b_TerminalProject
 
             List<List<bool>> fm_arr1 = Formatting(arr1, arr2);
             List<List<bool>> fm_arr2 = Formatting(arr2, arr1);
-            /*
+
             for (int i = 0; i < fm_arr1.Count; i++)
             {
                 Console.WriteLine("Arr1 Index : " + i);
@@ -217,6 +217,7 @@ namespace b_TerminalProject
                 {
                     Console.Write(fm_arr1[i][j] + " ");
                 }
+                Console.WriteLine("\n");
             }
 
             Console.WriteLine();
@@ -228,10 +229,11 @@ namespace b_TerminalProject
                 {
                     Console.Write(fm_arr2[i][j] + " ");
                 }
+                Console.WriteLine("\n");
             }
 
             Console.WriteLine();
-            */
+
 
         }
 
@@ -538,6 +540,7 @@ namespace b_TerminalProject
             List<List<bool>> val = new List<List<bool>>();
             List<bool> ist = new List<bool>();
 
+            /*
             bool IsDone = false;
             int IndexCrite = 0;
 
@@ -641,13 +644,119 @@ namespace b_TerminalProject
                 ist = null;
                 ist = new List<bool>();
             }
+            */
+
+
+            bool IsDone = false;
+            int IndexTarget = 0;
+
+            int IndexCrite = 0;
+            int CountCrite = 0;
 
             while (IsDone != true)
             {
-                for (int i = 0; i < target.Count; i++)
+
+                // One
+                for (int i = 0; i < criterion.Count; i++)
                 {
-                    
+                    if (target[IndexTarget] == criterion[i])
+                    {
+                        bool IsEqual = true;
+                        int _i = i;
+
+                        while(IsEqual)
+                        {
+                            if (IndexTarget + _i < target.Count && i + _i < criterion.Count)
+                            {
+                                if (target[IndexTarget + _i] == criterion[i + _i])
+                                {
+                                    ist.Add(target[IndexTarget]);
+                                    _i++;
+                                }
+
+                                else
+                                    IsEqual = false;
+                            }
+
+                            else
+                                IsEqual = false;
+                        }
+
+                        if (CountCrite < ist.Count)
+                        {
+                            CountCrite = ist.Count;
+                            IndexCrite = i;
+                        }
+
+                        ist = null;
+                        ist = new List<bool>();
+                    }
                 }
+
+                // Two
+                bool IsEqualfmt = true;
+                for (int i = 0; IsEqualfmt == true; i++)
+                {
+                    if (IndexTarget + i < target.Count && IndexCrite + i < criterion.Count)
+                    {
+                        if (target[IndexTarget + i] == criterion[IndexCrite + i])
+                            ist.Add(target[IndexTarget + i]);
+
+                        else
+                        {
+                            IsEqualfmt = false;
+                            IndexCrite += i;
+                            IndexTarget += i;
+                        }
+                    }
+
+                    else
+                    {
+                        IsEqualfmt = false;
+                        IndexCrite += i;
+                        IndexTarget += i;
+                    }
+                }
+
+                // Three
+                for (int i = 0; IsEqualfmt != true; i++)
+                {
+                    if (IndexTarget + i < target.Count && IndexCrite + i < criterion.Count)
+                    {
+                        if (target[IndexTarget + i] != criterion[IndexCrite + i])
+                            ist.Add(target[IndexTarget + i]);
+
+                        else
+                        {
+                            ist.Add(target[IndexTarget + i]);
+                            IsEqualfmt = true;
+                            IndexTarget += i;
+                            IndexCrite = 0;
+                            CountCrite = 0;
+                        }
+                    }
+
+                    else
+                    {
+                        IsEqualfmt = true;
+
+                        if (IndexTarget + i >= target.Count)
+                            IsDone = true;
+
+                        else if (IndexCrite + i >= target.Count)
+                        {
+                            IndexTarget += i;
+                            IndexCrite = 0;
+                            CountCrite = 0;
+                        }
+                        
+                    }
+                }
+
+                val.Add(ist);
+                ist = null;
+                ist = new List<bool>();
+
             }
 
 
