@@ -208,7 +208,7 @@ namespace b_TerminalProject
 
 
             List<List<bool>> fm_arr1 = Formatting(arr1, arr2);
-            List<List<bool>> fm_arr2 = Formatting(arr2, arr1);
+           // List<List<bool>> fm_arr2 = Formatting(arr2, arr1);
 
             for (int i = 0; i < fm_arr1.Count; i++)
             {
@@ -218,7 +218,7 @@ namespace b_TerminalProject
 
                 Console.WriteLine();
             }
-
+            /*
             Console.WriteLine();
 
             for (int i = 0; i < fm_arr2.Count; i++)
@@ -231,7 +231,7 @@ namespace b_TerminalProject
             }
 
             Console.WriteLine();
-
+            */
 
         }
 
@@ -553,12 +553,13 @@ namespace b_TerminalProject
                     if (target[IndexTarget] == criterion[i])
                     {
                         bool IsEqual = true;
-                        int _i = i;
+                        int _i = 0;
 
-                        while(IsEqual)
+                        while (IsEqual == true)
                         {
                             if (IndexTarget + _i < target.Count && i + _i < criterion.Count)
                             {
+                                Console.WriteLine("target : " + IndexTarget + " " + _i + " " + target[IndexTarget + _i] + " / Crite : " + IndexCrite + " " + _i + " " + criterion[i + _i]);
                                 if (target[IndexTarget + _i] == criterion[i + _i])
                                 {
                                     ist.Add(target[IndexTarget]);
@@ -566,7 +567,9 @@ namespace b_TerminalProject
                                 }
 
                                 else
+                                {
                                     IsEqual = false;
+                                }
                             }
 
                             else
@@ -582,6 +585,7 @@ namespace b_TerminalProject
                         ist = null;
                         ist = new List<bool>();
                     }
+                    Console.WriteLine(i);
                 }
 
                 // Two
@@ -612,23 +616,34 @@ namespace b_TerminalProject
                 // Three
                 for (int i = 0; IsEqualfmt != true; i++)
                 {
-                    if (IndexTarget + i < target.Count && IndexCrite + i < criterion.Count)
+                    if (IndexTarget + i < target.Count)
                     {
-                        if (target[IndexTarget + i] != criterion[IndexCrite + i])
-                            ist.Add(target[IndexTarget + i]);
+                        if (target[IndexTarget + i] != criterion[IndexCrite])
+                        {
+                            Console.WriteLine("***");
+                            ist.Add(target[IndexTarget + i]);  
+                        }
 
                         else
                         {
+                            Console.WriteLine("****");
                             ist.Add(target[IndexTarget + i]);
                             IsEqualfmt = true;
-                            IndexTarget += i;
                             IndexCrite = 0;
                             CountCrite = 0;
+                            if (IndexTarget + i >= target.Count)
+                                IsDone = true;
+
+                            else
+                                IndexTarget += i + 1;
+                            Console.WriteLine(IndexTarget);
                         }
                     }
 
                     else
                     {
+
+                        Console.WriteLine("*****");
                         IsEqualfmt = true;
 
                         if (IndexTarget + i >= target.Count)
