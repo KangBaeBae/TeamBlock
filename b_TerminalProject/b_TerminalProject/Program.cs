@@ -19,6 +19,26 @@ namespace b_TerminalProject
 
         #region Kernel
 
+        public void Compare()
+        {
+            Console.Write("Enter value : ");
+            string value1 = Console.ReadLine();
+
+            Console.Write("Enter value : ");
+            string value2 = Console.ReadLine();
+
+            List<List<bool>> val = Compare(Tobool(value1), Tobool(value2));
+
+            for (int i = 0; i < val.Count; i++)
+            {
+                Console.Write("\n" + i + " : ");
+                for (int j = 0; j < val[i].Count; j++)
+                    Console.Write(val[i][j] + " ");
+            }
+
+            Console.WriteLine();
+        }
+
         public void Combine()
         {
             Console.Write("Set format : ");
@@ -149,7 +169,7 @@ namespace b_TerminalProject
             Console.WriteLine();
         }
 
-        public void Compare()
+        public void Similarity()
         {
             int[,] array = new int[1001, 1001];
 
@@ -192,7 +212,7 @@ namespace b_TerminalProject
             Console.WriteLine("");
             // array[st_arr1.Length, st_arr2.Length] == 유사도 결과값.
             Console.WriteLine("Last Num : " + array[st_arr1.Length, st_arr2.Length]);
-            Console.WriteLine("Return : " + Compare(value1, value2));
+            Console.WriteLine("Return : " + Similarity(value1, value2));
         }
 
         public void Format()
@@ -388,7 +408,7 @@ namespace b_TerminalProject
             return bl;
         }
 
-        int Compare(string value1, string value2)
+        int Similarity(string value1, string value2)
         {
             int[,] array = new int[1001, 1001];
 
@@ -415,6 +435,52 @@ namespace b_TerminalProject
             return array[arr1.Length, arr2.Length];
         }
 
+        int Similarity(List<bool> value1, List<bool> value2)
+        {
+            string val1 = BoolToInt(value1);
+            string val2 = BoolToInt(value2);
+
+            return Similarity(val1, val2);
+        }
+
+        int Similarity(List<List<bool>> _value1, List<List<bool>> _value2)
+        {
+            string value1 = BoolToInt(_value1);
+            string value2 = BoolToInt(_value2);
+
+            return Similarity(value1, value2);
+        }
+
+        string BoolToInt(List<bool> value)
+        {
+            string val = string.Empty;
+
+            for (int i = 0; i < value.Count; i++)
+            {
+                if (value[i] == true)
+                    val += "1";
+
+                else
+                    val += "0";
+            }
+
+            return val;
+        }
+
+        string BoolToInt(List<List<bool>> value)
+        {
+            List<bool> val1 = new List<bool>();
+
+            for (int i = 0; i < value.Count; i++)
+            {
+                for (int j = 0; j < value[i].Count; j++)
+                {
+                    val1.Add(value[i][j]);
+                }
+            }
+
+            return BoolToInt(val1);
+        }
 
         List<char> Combine(string value1, string value2)
         {
@@ -657,6 +723,29 @@ namespace b_TerminalProject
             return val;
         }
 
+        List<List<bool>> Compare(List<bool> eve, List<bool> mem)
+        {
+            List<List<bool>> _eve = Formatting(eve, mem);
+            List<List<bool>> _mem = Formatting(mem, eve);
+
+            List<List<bool>> _rsl = new List<List<bool>>();
+
+            int Count = 0;
+            for (int i = 0; i < _eve.Count; i++)
+            {
+                for (int j = 0; j < _mem.Count; j++)
+                {
+                    if (Count < Similarity(_eve[i], _mem[j]))
+                    {
+                        Count = j;
+                    }
+                }
+
+                _rsl.Add(Combine(_eve[i], _mem[Count]));
+            }
+
+            return _rsl;
+        }
 
         #endregion
 
