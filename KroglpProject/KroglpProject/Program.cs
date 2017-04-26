@@ -535,18 +535,16 @@ namespace KroglpProject
         public static void Save() { _Kernel.Close(); }
     }
 
+
     class MainClass
     {
         public static void Main(string[] args)
         {
-
             Stand();
-
         }
 
         public static void Stand()
         {
-
             Console.Write("block : ");
             string command = Console.ReadLine();
 
