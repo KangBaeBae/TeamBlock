@@ -31,12 +31,17 @@ namespace b_TerminalProject
 
             for (int i = 0; i < val.Count; i++)
             {
-                Console.Write("\n" + i + " : ");
+                Console.Write(i + " : ");
                 for (int j = 0; j < val[i].Count; j++)
-                    Console.Write(val[i][j] + " ");
-            }
+                {
+                    if (val[i][j] == false)
+                        Console.Write("0");
 
-            Console.WriteLine();
+                    else
+                        Console.Write("1");
+                }
+                Console.WriteLine();
+            }
         }
 
         public void Combine()
@@ -59,7 +64,6 @@ namespace b_TerminalProject
             }
 
         }
-
         void Combine_String()
         {
             Console.Write("Enter value : ");
@@ -113,7 +117,6 @@ namespace b_TerminalProject
                 Console.Write(arr3[i] + " ");
             Console.WriteLine();
         }
-
         void Combine_Bool()
         {
             Console.Write("Enter value : ");
@@ -255,7 +258,46 @@ namespace b_TerminalProject
 
         }
 
+        public void Help()
+        {
+            StandBy sb = new StandBy();
+            Type type = sb.GetType();
+            MethodInfo[] cf = type.GetMethods(BindingFlags.Instance | BindingFlags.Public);
+            for (int i = 0; i < cf.Length; i++)
+            {
+                if (cf[i].Name != "Help")
+                    Console.WriteLine(cf[i].Name);
+            }
+        }
+
+        public void TextWrite()
+        {
+            Console.WriteLine("Starting address is [ /Users/(Username)/ ] and for example, if you entered Documents/Project/FileName, path is /Users/(Username)/Documents/Project/\n");
+            Console.Write("Enter the path's value : ");
+            string _pathvalue = Console.ReadLine();
+            string _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), _pathvalue) + ".txt";
+
+            Console.Write("Enter the data's value : ");
+            string _data = Console.ReadLine();
+
+            File.WriteAllText(_path, _data, Encoding.Default);
+            Console.WriteLine("Done");
+        }
+
+        public void TextRead()
+        {
+            Console.WriteLine("Starting address is [ /Users/(Username)/ ] and for example is Documents/Project/Name.format ");
+            Console.Write("Enter the path's value : ");
+            string _pathvalue = Console.ReadLine();
+            string _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), _pathvalue) + ".txt";
+
+            string text = File.ReadAllText(_path);
+            Console.WriteLine(text);
+        }
+
         #endregion
+
+
 
         #region General
 
@@ -386,6 +428,8 @@ namespace b_TerminalProject
 
         #endregion
 
+
+
         #region private
 
         bool IsInclude(char[] array, char value)
@@ -397,7 +441,6 @@ namespace b_TerminalProject
 
             return bl;
         }
-
         bool IsInclude(List<char> array, char value)
         {
             bool bl = false;
@@ -434,7 +477,6 @@ namespace b_TerminalProject
 
             return array[arr1.Length, arr2.Length];
         }
-
         int Similarity(List<bool> value1, List<bool> value2)
         {
             string val1 = BoolToInt(value1);
@@ -442,7 +484,6 @@ namespace b_TerminalProject
 
             return Similarity(val1, val2);
         }
-
         int Similarity(List<List<bool>> _value1, List<List<bool>> _value2)
         {
             string value1 = BoolToInt(_value1);
@@ -466,7 +507,6 @@ namespace b_TerminalProject
 
             return val;
         }
-
         string BoolToInt(List<List<bool>> value)
         {
             List<bool> val1 = new List<bool>();
@@ -526,7 +566,6 @@ namespace b_TerminalProject
             return arr3;
             
         }
-
         List<bool> Combine(List<bool> value1, List<bool> value2)
         {
             List<bool> arr = new List<bool>();
@@ -575,7 +614,6 @@ namespace b_TerminalProject
             else
                 return null;
         }
-
         List<bool> Tobool(int[] value)
         {
             List<bool> arr = new List<bool>();
@@ -747,6 +785,40 @@ namespace b_TerminalProject
             return _rsl;
         }
 
+        void Serialize(string path, Object obj)
+        {
+            Stream stream = File.Open(path, FileMode.Create);
+
+            BinaryFormatter bF = new BinaryFormatter();
+            bF.Serialize(stream, obj);
+
+            stream.Close();
+        }
+
+        Object DeSerialize(string path, Object obj)
+        {
+            Stream st = File.Open(path, FileMode.Open);
+
+            BinaryFormatter bF = new BinaryFormatter();
+            obj = bF.Deserialize(st);
+
+            st.Close();
+
+            return obj;
+        }
+
+        List<List<List<bool>>> DeSerialize(string path)
+        {
+            Stream st = File.Open(path, FileMode.Open);
+
+            BinaryFormatter bf = new BinaryFormatter();
+            List<List<List<bool>>> mem = (List<List<List<bool>>>)bf.Deserialize(st);
+
+            st.Close();
+
+            return mem;
+        }
+
         #endregion
 
     }
@@ -783,13 +855,12 @@ namespace b_TerminalProject
                 MethodInfo callFunc = type.GetMethod(value, BindingFlags.Instance | BindingFlags.Public);
                 callFunc.Invoke(sb, null);
             }
+
             catch
             {
                 Console.WriteLine("*There is no function with the same name as the name you entered");
+                Console.WriteLine("*If you don't know about Method name, Enter the Help");
             }
-
-
-
         }
 
     }
