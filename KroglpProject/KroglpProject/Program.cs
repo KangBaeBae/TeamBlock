@@ -12,9 +12,18 @@ namespace KroglpProject
 
         public Kernel(string path)
         {
-            Path = path;
-            Conscious = DeSerialize(path);
-            IsProcess = false;
+            try
+            {
+                Path = path;
+                Conscious = DeSerialize(path);
+            }
+
+            catch
+            {
+                Path = path;
+                Conscious = new List<List<List<bool>>>();
+            }
+
         }
 
         public void Process(string value)
@@ -22,32 +31,8 @@ namespace KroglpProject
             List<bool> Event = Tobool(value);
             instance = null;
 
-            for (int i = 0; i < Conscious.Count; i++)
+            if (Conscious.Count != 0)
             {
-                List<bool> Memory = DMConvert(Conscious[i]);
-
-                List<List<bool>> _eve = Formatting(Event, Memory);
-                List<List<bool>> _mem = Formatting(Memory, Event);
-
-                Conscious.Insert(i, _mem);
-                Conscious.RemoveAt(i + 1);
-
-                if (i == 0)
-                    instance = Compare(_eve, _mem);
-
-                else
-                    instance = Compare(Compare(_eve, _mem), instance);
-            }
-
-            Conscious.Add(instance);
-        }
-        public void Process(int[] value)
-        {
-            if (IsProcess == true)
-            {
-                List<bool> Event = Tobool(value);
-                instance = null;
-
                 for (int i = 0; i < Conscious.Count; i++)
                 {
                     List<bool> Memory = DMConvert(Conscious[i]);
@@ -69,9 +54,51 @@ namespace KroglpProject
             }
 
             else
+            {
+                instance = new List<List<bool>>();
+                instance.Add(Event);
 
-                Serialize(Path, instance);
+                Conscious.Add(instance);
+            }
         }
+        public void Process(int[] value)
+        {
+            List<bool> Event = Tobool(value);
+            instance = null;
+
+            if (Conscious.Count == 0)
+            {
+                for (int i = 0; i < Conscious.Count; i++)
+                {
+                    List<bool> Memory = DMConvert(Conscious[i]);
+
+                    List<List<bool>> _eve = Formatting(Event, Memory);
+                    List<List<bool>> _mem = Formatting(Memory, Event);
+
+                    Conscious.Insert(i, _mem);
+                    Conscious.RemoveAt(i + 1);
+
+                    if (i == 0)
+                        instance = Compare(_eve, _mem);
+
+                    else
+                        instance = Compare(Compare(_eve, _mem), instance);
+                }
+
+                Conscious.Add(instance);
+            }
+
+
+            else
+            {
+                instance = new List<List<bool>>();
+                instance.Add(Event);
+
+                Conscious.Add(instance);
+            }
+        }
+
+        public List<List<List<bool>>> Return() { return _coc; }
 
         public void Close()
         {
@@ -86,8 +113,9 @@ namespace KroglpProject
 
         #region Properties
 
+        List<List<List<bool>>> _coc { get { return Conscious; } }
         List<List<List<bool>>> Conscious;
-        List<List<List<bool>>> UnConscious;
+        //List<List<List<bool>>> UnConscious;
         List<List<bool>> instance = new List<List<bool>>();
 
         bool IsProcess { get; set; }
@@ -489,17 +517,81 @@ namespace KroglpProject
         #endregion
     }
 
-    class KernelAPI
+    static class KernelAPI
     {
-        
+        static Kernel _Kernel;
+
+        public static void Initialize(string path)
+        {
+            _Kernel = new Kernel(path);
+        }
+
+
+        public static void Input(string data) { _Kernel.Process(data); }
+        public static void Input(int[] data) { _Kernel.Process(data); }
+
+        public static List<List<List<bool>>> Output() { return _Kernel.Return(); }
+
+        public static void Save() { _Kernel.Close(); }
     }
 
     class MainClass
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
 
+            Stand();
+
+        }
+
+        public static void Stand()
+        {
+
+            Console.Write("block : ");
+            string command = Console.ReadLine();
+
+            if (command == "Path")
+            {
+                Console.Write("Enter the value : ");
+                KernelAPI.Initialize(Console.ReadLine());
+            }
+
+            else if (command == "Input")
+            {
+                Console.Write("Enter the value : ");
+                KernelAPI.Input(Console.ReadLine());
+            }
+
+            else if (command == "Output")
+            {
+                for (int i = 0; i < KernelAPI.Output().Count; i++)
+                {
+                    Console.WriteLine("Mem " + i);
+                    for (int j = 0; j < KernelAPI.Output()[i].Count; j++)
+                    {
+                        Console.Write("\t" + j + " : ");
+
+                        for (int k = 0; k < KernelAPI.Output()[i][j].Count; k++)
+                        {
+                            if (KernelAPI.Output()[i][j][k] == true)
+                                Console.Write("1");
+
+                            else
+                                Console.Write("0");
+                        }
+
+                        Console.WriteLine();
+                    }
+                }
+            }
+
+            else if (command == "Save")
+                KernelAPI.Save();
+
+            else
+                Console.WriteLine("Command is Path, Input, Output, Save");
+
+            Stand();
         }
     }
 }

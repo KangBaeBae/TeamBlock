@@ -1,0 +1,5 @@
+/Users/BaeBae/Documents/TeamBlock/KroglpProject/KroglpProject/obj/x86/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/BaeBae/Documents/TeamBlock/KroglpProject/KroglpProject/bin/Debug/KroglpProject.exe.mdb
+/Users/BaeBae/Documents/TeamBlock/KroglpProject/KroglpProject/bin/Debug/KroglpProject.exe
+/Users/BaeBae/Documents/TeamBlock/KroglpProject/KroglpProject/obj/x86/Debug/KroglpProject.exe
+/Users/BaeBae/Documents/TeamBlock/KroglpProject/KroglpProject/obj/x86/Debug/KroglpProject.exe.mdb
