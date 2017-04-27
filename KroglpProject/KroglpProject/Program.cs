@@ -123,7 +123,7 @@ namespace KroglpProject
             }
         }
 
-        public List<List<List<bool>>> Return() { return _coc; }
+        public List<List<List<bool>>> Return() { return _Return; }
 
         public void Close()
         {
