@@ -26,10 +26,9 @@ namespace KroglpProject
 
         }
 
-        public void Process(string value)
+        public virtual void Process(string value)
         {
             List<bool> Event = Tobool(value);
-			List<bool> TopSim;
 			instance = null;
 
             if (Conscious.Count != 0)
@@ -42,8 +41,6 @@ namespace KroglpProject
                     else
                         ReArrange(Event, Conscious);
                 }
-
-                TopSim = UnFormat(Conscious[0]);
 
                 for (int i = 0; i < Conscious.Count; i++)
                 {
@@ -74,10 +71,9 @@ namespace KroglpProject
                 UnConscious = new List<List<List<bool>>>();
             }
         }
-        public void Process(int[] value)
+        public virtual void Process(int[] value)
         {
             List<bool> Event = Tobool(value);
-            List<bool> TopSim;
             instance = null;
 
             if (Conscious.Count != 0)
@@ -90,8 +86,6 @@ namespace KroglpProject
                     else
                         ReArrange(Event, Conscious);
                 }
-
-                TopSim = UnFormat(Conscious[0]);
 
                 for (int i = 0; i < Conscious.Count; i++)
                 {
@@ -583,6 +577,7 @@ namespace KroglpProject
         }
 
 
+
         public static void Input(string data) { _Kernel.Process(data); }
         public static void Input(int[] data) { _Kernel.Process(data); }
 
@@ -597,8 +592,6 @@ namespace KroglpProject
         {
             Stand();
         }
-
-
 
 
         public static void Stand()
