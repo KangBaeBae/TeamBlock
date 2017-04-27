@@ -1,0 +1,5 @@
+/Users/BaeBae/Documents/TeamBlock/KroglpProject/KroglpProject/obj/x86/Debug/KroglpProject.csproj.CoreCompileInputs.cache
+/Users/BaeBae/Documents/TeamBlock/KroglpProject/KroglpProject/obj/x86/Debug/KroglpProject.exe
+/Users/BaeBae/Documents/TeamBlock/KroglpProject/KroglpProject/bin/Debug/KroglpProject.exe
+/Users/BaeBae/Documents/TeamBlock/KroglpProject/KroglpProject/bin/Debug/KroglpProject.pdb
+/Users/BaeBae/Documents/TeamBlock/KroglpProject/KroglpProject/obj/x86/Debug/KroglpProject.pdb

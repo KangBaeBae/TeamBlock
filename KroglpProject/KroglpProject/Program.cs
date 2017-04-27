@@ -29,16 +29,28 @@ namespace KroglpProject
         public void Process(string value)
         {
             List<bool> Event = Tobool(value);
-            instance = null;
+			List<bool> TopSim;
+			instance = null;
 
             if (Conscious.Count != 0)
             {
+
+                if (UnFormat(Conscious[0]).Count > Event.Count)
+                {
+                    if (Similarity(Event, UnFormat(Conscious[0])) * 100 / UnFormat(Conscious[0]).Count > 34)
+                        MemoryRecast(Event);
+                    else
+                        ReArrange(Event, Conscious);
+                }
+
+                TopSim = UnFormat(Conscious[0]);
+
                 for (int i = 0; i < Conscious.Count; i++)
                 {
-                    List<bool> Memory = DMConvert(Conscious[i]);
+                    List<bool> Memory = UnFormat(Conscious[i]);
 
-                    List<List<bool>> _eve = Formatting(Event, Memory);
-                    List<List<bool>> _mem = Formatting(Memory, Event);
+                    List<List<bool>> _eve = Format(Event, Memory);
+                    List<List<bool>> _mem = Format(Memory, Event);
 
                     Conscious.Insert(i, _mem);
                     Conscious.RemoveAt(i + 1);
@@ -50,7 +62,7 @@ namespace KroglpProject
                         instance = Compare(Compare(_eve, _mem), instance);
                 }
 
-                Conscious.Add(instance);
+                Conscious.Insert(0, instance);
             }
 
             else
@@ -58,22 +70,35 @@ namespace KroglpProject
                 instance = new List<List<bool>>();
                 instance.Add(Event);
 
-                Conscious.Add(instance);
+                Conscious.Insert(0, instance);
+                UnConscious = new List<List<List<bool>>>();
             }
         }
         public void Process(int[] value)
         {
             List<bool> Event = Tobool(value);
+            List<bool> TopSim;
             instance = null;
 
-            if (Conscious.Count == 0)
+            if (Conscious.Count != 0)
             {
+
+                if (UnFormat(Conscious[0]).Count > Event.Count)
+                {
+                    if (Similarity(Event, UnFormat(Conscious[0])) * 100 / UnFormat(Conscious[0]).Count > 34)
+                        MemoryRecast(Event);
+                    else
+                        ReArrange(Event, Conscious);
+                }
+
+                TopSim = UnFormat(Conscious[0]);
+
                 for (int i = 0; i < Conscious.Count; i++)
                 {
-                    List<bool> Memory = DMConvert(Conscious[i]);
+                    List<bool> Memory = UnFormat(Conscious[i]);
 
-                    List<List<bool>> _eve = Formatting(Event, Memory);
-                    List<List<bool>> _mem = Formatting(Memory, Event);
+                    List<List<bool>> _eve = Format(Event, Memory);
+                    List<List<bool>> _mem = Format(Memory, Event);
 
                     Conscious.Insert(i, _mem);
                     Conscious.RemoveAt(i + 1);
@@ -85,16 +110,16 @@ namespace KroglpProject
                         instance = Compare(Compare(_eve, _mem), instance);
                 }
 
-                Conscious.Add(instance);
+                Conscious.Insert(0, instance);
             }
-
 
             else
             {
                 instance = new List<List<bool>>();
                 instance.Add(Event);
 
-                Conscious.Add(instance);
+                Conscious.Insert(0, instance);
+                UnConscious = new List<List<List<bool>>>();
             }
         }
 
@@ -109,19 +134,38 @@ namespace KroglpProject
             Serialize(path, Conscious);
         }
 
+        List<List<bool>> Compare(List<List<bool>> eve, List<List<bool>> mem)
+        {
+            List<List<bool>> rsl = new List<List<bool>>();
+
+            int Count = 0;
+            for (int i = 0; i < eve.Count; i++)
+            {
+                for (int j = 0; j < mem.Count; j++)
+                    if (Count < Similarity(eve[i], mem[j]))
+                        Count = j;
+
+                rsl.Add(Combine(eve[i], mem[Count]));
+            }
+
+            return rsl;
+        }
+
         #endregion
+
 
         #region Properties
 
-        List<List<List<bool>>> _coc { get { return Conscious; } }
+        List<List<List<bool>>> _Return { get { return Conscious; } }
         List<List<List<bool>>> Conscious;
-        //List<List<List<bool>>> UnConscious;
+        List<List<List<bool>>> UnConscious;
         List<List<bool>> instance = new List<List<bool>>();
 
         bool IsProcess { get; set; }
         string Path { get; set; }
 
         #endregion
+
 
         #region Method
 
@@ -330,7 +374,7 @@ namespace KroglpProject
                 return null;
         }
 
-        List<bool> DMConvert(List<List<bool>> value)
+        List<bool> UnFormat(List<List<bool>> value)
         {
             List<bool> ins = new List<bool>();
 
@@ -341,7 +385,7 @@ namespace KroglpProject
             return ins;
         }
 
-        List<List<bool>> Formatting(List<bool> target, List<bool> criterion)
+        List<List<bool>> Format(List<bool> target, List<bool> criterion)
         {
             List<List<bool>> val = new List<List<bool>>();
             List<bool> ist = new List<bool>();
@@ -415,6 +459,7 @@ namespace KroglpProject
                     {
                         IsDone = true;
                         break;
+
                     }
 
                     else if (IndexCrite + i >= criterion.Count)
@@ -463,23 +508,34 @@ namespace KroglpProject
             }
 
             return val;
-        }
-        List<List<bool>> Compare(List<List<bool>> eve, List<List<bool>> mem)
+                 }
+
+        void ReArrange(List<bool> data, List<List<List<bool>>> array)
         {
-
-            List<List<bool>> rsl = new List<List<bool>>();
-
-            int Count = 0;
-            for (int i = 0; i < eve.Count; i++)
+            array.Sort(delegate (List<List<bool>> A, List<List<bool>> B)
             {
-                for (int j = 0; j < mem.Count; j++)
-                    if (Count < Similarity(eve[i], mem[j]))
-                        Count = j;
-                    
-                rsl.Add(Combine(eve[i], mem[Count]));
-            }
+                if (Similarity(data, UnFormat(A)) > Similarity(data, UnFormat(B))) return 1;
+                else if (Similarity(data, UnFormat(A)) < Similarity(data, UnFormat(B))) return -1;
+                else return 0;
+            });
+        }
 
-            return rsl;
+        void MemoryRecast(List<bool> eve)
+        {
+            for (int i = 0; i < Conscious.Count; i++)
+                UnConscious.Add(Conscious[i]);
+
+            Conscious = null;
+            Conscious = new List<List<List<bool>>>();
+
+            ReArrange(eve,UnConscious);
+
+            for (int i = 0; i < UnConscious.Count / 5; i++)
+                Conscious.Add(UnConscious[i]);
+
+            for (int i = 0; i < Conscious.Count; i++)
+                UnConscious.RemoveAt(0);
+            
         }
 
         void Serialize(string path, Object obj)
@@ -535,13 +591,15 @@ namespace KroglpProject
         public static void Save() { _Kernel.Close(); }
     }
 
-
     class MainClass
     {
         public static void Main(string[] args)
         {
             Stand();
         }
+
+
+
 
         public static void Stand()
         {
@@ -580,6 +638,7 @@ namespace KroglpProject
 
                         Console.WriteLine();
                     }
+                    Console.WriteLine();
                 }
             }
 
