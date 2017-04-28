@@ -26,52 +26,7 @@ namespace KroglpProject
 
         }
 
-        public virtual void Process(string value)
-        {
-            List<bool> Event = Tobool(value);
-			instance = null;
-
-            if (Conscious.Count != 0)
-            {
-
-                if (UnFormat(Conscious[0]).Count > Event.Count)
-                {
-                    if (Similarity(Event, UnFormat(Conscious[0])) * 100 / UnFormat(Conscious[0]).Count > 34)
-                        MemoryRecast(Event);
-                    else
-                        ReArrange(Event, Conscious);
-                }
-
-                for (int i = 0; i < Conscious.Count; i++)
-                {
-                    List<bool> Memory = UnFormat(Conscious[i]);
-
-                    List<List<bool>> _eve = Format(Event, Memory);
-                    List<List<bool>> _mem = Format(Memory, Event);
-
-                    Conscious.Insert(i, _mem);
-                    Conscious.RemoveAt(i + 1);
-
-                    if (i == 0)
-                        instance = Compare(_eve, _mem);
-
-                    else
-                        instance = Compare(Compare(_eve, _mem), instance);
-                }
-
-                Conscious.Insert(0, instance);
-            }
-
-            else
-            {
-                instance = new List<List<bool>>();
-                instance.Add(Event);
-
-                Conscious.Insert(0, instance);
-                UnConscious = new List<List<List<bool>>>();
-            }
-        }
-        public virtual void Process(int[] value)
+        public void Process(string value)
         {
             List<bool> Event = Tobool(value);
             instance = null;
@@ -81,8 +36,73 @@ namespace KroglpProject
 
                 if (UnFormat(Conscious[0]).Count > Event.Count)
                 {
-                    if (Similarity(Event, UnFormat(Conscious[0])) * 100 / UnFormat(Conscious[0]).Count > 34)
+                    if (Similarity(Event, UnFormat(Conscious[0])) * 100 / UnFormat(Conscious[0]).Count > 75)
                         MemoryRecast(Event);
+
+                    else
+                        ReArrange(Event, Conscious);
+                }
+
+                else
+                {
+                    if (Similarity(Event, UnFormat(Conscious[0])) * 100 / Event.Count > 75)
+                        MemoryRecast(Event);
+
+                    else
+                        ReArrange(Event, Conscious);
+                }
+
+                for (int i = 0; i < Conscious.Count; i++)
+                {
+                    List<bool> Memory = UnFormat(Conscious[i]);
+
+                    List<List<bool>> _eve = Format(Event, Memory);
+                    List<List<bool>> _mem = Format(Memory, Event);
+
+                    Conscious.Insert(i, _mem);
+                    Conscious.RemoveAt(i + 1);
+
+                    if (i == 0)
+                        instance = Compare(_eve, _mem);
+
+                    else
+                        instance = Compare(Compare(_eve, _mem), instance);
+                }
+
+                Conscious.Insert(0, instance);
+            }
+
+            else
+            {
+                instance = new List<List<bool>>();
+                instance.Add(Event);
+
+                Conscious.Insert(0, instance);
+                UnConscious = new List<List<List<bool>>>();
+            }
+        }
+        public void Process(int[] value)
+        {
+            List<bool> Event = Tobool(value);
+            instance = null;
+
+            if (Conscious.Count != 0)
+            {
+
+                if (UnFormat(Conscious[0]).Count > Event.Count)
+                {
+                    if (Similarity(Event, UnFormat(Conscious[0])) * 100 / UnFormat(Conscious[0]).Count > 75)
+                        MemoryRecast(Event);
+
+                    else
+                        ReArrange(Event, Conscious);
+                }
+
+                else
+                {
+                    if (Similarity(Event, UnFormat(Conscious[0])) * 100 / Event.Count > 75)
+                        MemoryRecast(Event);
+
                     else
                         ReArrange(Event, Conscious);
                 }
@@ -117,7 +137,7 @@ namespace KroglpProject
             }
         }
 
-        public List<List<List<bool>>> Return() { return _Return; }
+        public List<List<List<bool>>> Return { get { return Conscious; } }
 
         public void Close()
         {
@@ -150,7 +170,7 @@ namespace KroglpProject
 
         #region Properties
 
-        List<List<List<bool>>> _Return { get { return Conscious; } }
+        List<bool> SimilartiesMemory { get { return UnFormat(Conscious[0]); } }
         List<List<List<bool>>> Conscious;
         List<List<List<bool>>> UnConscious;
         List<List<bool>> instance = new List<List<bool>>();
@@ -368,13 +388,13 @@ namespace KroglpProject
                 return null;
         }
 
-        List<bool> UnFormat(List<List<bool>> value)
+        List<bool> UnFormat(List<List<bool>> val)
         {
             List<bool> ins = new List<bool>();
 
-            for (int i = 0; i < value.Count; i++)
-                for (int j = 0; j < value[i].Count; j++)
-                    ins.Add(value[i][j]);
+            for (int i = 0; i < val.Count; i++)
+                for (int j = 0; j < val[i].Count; j++)
+                    ins.Add(val[i][j]);
 
             return ins;
         }
@@ -524,7 +544,7 @@ namespace KroglpProject
 
             ReArrange(eve,UnConscious);
 
-            for (int i = 0; i < UnConscious.Count / 5; i++)
+            for (int i = 0; i < UnConscious.Count - UnConscious.Count * 3 / 4; i++)
                 Conscious.Add(UnConscious[i]);
 
             for (int i = 0; i < Conscious.Count; i++)
@@ -581,7 +601,8 @@ namespace KroglpProject
         public static void Input(string data) { _Kernel.Process(data); }
         public static void Input(int[] data) { _Kernel.Process(data); }
 
-        public static List<List<List<bool>>> Output() { return _Kernel.Return(); }
+        public static List<List<List<bool>>> Output() { return _Kernel.Return; }
+
 
         public static void Save() { _Kernel.Close(); }
     }
