@@ -174,7 +174,6 @@ namespace b_TerminalProject
 
         public void Similarity()
         {
-            int[,] array = new int[1001, 1001];
 
             Console.Write("Enter the data : ");
             string value1 = Console.ReadLine();
@@ -182,6 +181,8 @@ namespace b_TerminalProject
             Console.Write("Enter the data : ");
             string value2 = Console.ReadLine();
             Console.WriteLine("");
+
+            int[,] array = new int[value1.Count() + 1, value2.Count() + 1];
 
             char[] st_arr1 = value1.Trim().ToCharArray();
             char[] st_arr2 = value2.Trim().ToCharArray();
@@ -207,7 +208,14 @@ namespace b_TerminalProject
             {
                 for (int j = 0; j <= st_arr2.Length; j++)
                 {
-                    Console.Write(array[i, j] + "\t");
+                    if (i == 0 && j > 0)
+                        Console.Write(st_arr2[i + 1] + "\t");
+
+                    else if (i > 0 && j == 0)
+                        Console.Write(st_arr1[i + 1] + "\t");
+
+                    else
+                        Console.Write(array[i, j] + "\t");
                 }
                 Console.WriteLine("");
             }
@@ -453,7 +461,7 @@ namespace b_TerminalProject
 
         int Similarity(string value1, string value2)
         {
-            int[,] array = new int[1001, 1001];
+            int[,] array = new int[value1.Count() + 1, value2.Count() + 1];
 
             char[] arr1 = value1.Trim().ToCharArray();
             char[] arr2 = value2.Trim().ToCharArray();
@@ -467,14 +475,10 @@ namespace b_TerminalProject
 
 
             for (int i = 1; i <= arr1.Length; i++)
-            {
                 for (int j = 1; j <= arr2.Length; j++)
-                {
                     if (arr1[i - 1] == arr2[j - 1]) array[i, j] = array[i - 1, j - 1];
                     else array[i, j] = Math.Min(array[i - 1, j - 1] + 1, Math.Min(array[i, j - 1] + 1, array[i - 1, j] + 1));
-                }
-            }
-
+            
             return array[arr1.Length, arr2.Length];
         }
         int Similarity(List<bool> value1, List<bool> value2)
@@ -823,9 +827,8 @@ namespace b_TerminalProject
 
     }
 
-  
 
-    class MainClass
+	class MainClass
     {
 
         public static void Main(string[] args)

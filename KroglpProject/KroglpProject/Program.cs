@@ -5,8 +5,15 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace KroglpProject
 {
+    
+    interface IKroglpAPI
+    {
+        void Input(bool[] Event);
 
-    class Kernel
+        bool[] Output();
+    }
+
+    class Kernel : IKroglpAPI
     {
         #region Processing
 
@@ -26,64 +33,9 @@ namespace KroglpProject
 
         }
 
-        public void Process(string value)
+        public void Input(bool[] value)
         {
-            List<bool> Event = Tobool(value);
-            instance = null;
-
-            if (Conscious.Count != 0)
-            {
-
-                if (UnFormat(Conscious[0]).Count > Event.Count)
-                {
-                    if (Similarity(Event, UnFormat(Conscious[0])) * 100 / UnFormat(Conscious[0]).Count > 75)
-                        MemoryRecast(Event);
-
-                    else
-                        ReArrange(Event, Conscious);
-                }
-
-                else
-                {
-                    if (Similarity(Event, UnFormat(Conscious[0])) * 100 / Event.Count > 75)
-                        MemoryRecast(Event);
-
-                    else
-                        ReArrange(Event, Conscious);
-                }
-
-                for (int i = 0; i < Conscious.Count; i++)
-                {
-                    List<bool> Memory = UnFormat(Conscious[i]);
-
-                    List<List<bool>> _eve = Format(Event, Memory);
-                    List<List<bool>> _mem = Format(Memory, Event);
-
-                    Conscious.Insert(i, _mem);
-                    Conscious.RemoveAt(i + 1);
-
-                    if (i == 0)
-                        instance = Compare(_eve, _mem);
-
-                    else
-                        instance = Compare(Compare(_eve, _mem), instance);
-                }
-
-                Conscious.Insert(0, instance);
-            }
-
-            else
-            {
-                instance = new List<List<bool>>();
-                instance.Add(Event);
-
-                Conscious.Insert(0, instance);
-                UnConscious = new List<List<List<bool>>>();
-            }
-        }
-        public void Process(int[] value)
-        {
-            List<bool> Event = Tobool(value);
+            List<bool> Event = new List<bool>(value);
             instance = null;
 
             if (Conscious.Count != 0)
@@ -137,7 +89,19 @@ namespace KroglpProject
             }
         }
 
-        public List<List<List<bool>>> Return { get { return Conscious; } }
+        public bool[] Output()
+        {
+            bool[] arr = new bool[UnFormat(Conscious[0]).Count];
+
+            for (int i = 0; i < UnFormat(Conscious[0]).Count; i++)
+            {
+                arr[i] = UnFormat(Conscious[0])[i];
+            }
+
+            return arr;
+        }
+
+        public List<List<List<bool>>> State { get { return Conscious; } }
 
         public void Close()
         {
@@ -170,7 +134,6 @@ namespace KroglpProject
 
         #region Properties
 
-        List<bool> SimilartiesMemory { get { return UnFormat(Conscious[0]); } }
         List<List<List<bool>>> Conscious;
         List<List<List<bool>>> UnConscious;
         List<List<bool>> instance = new List<List<bool>>();
@@ -339,53 +302,6 @@ namespace KroglpProject
             }
 
             return arr;
-        }
-
-        List<bool> Tobool(string value)
-        {
-            List<bool> arr = new List<bool>();
-
-            List<char> _value = new List<char>(value.Trim().ToCharArray());
-
-            for (int i = 0; i < _value.Count; i++)
-            {
-                if (_value[i].ToString() == "0")
-                    arr.Add(false);
-
-                else if (_value[i].ToString() == "1")
-                    arr.Add(true);
-
-                else
-                    break;
-            }
-
-            if (arr.Count == value.Length)
-                return arr;
-
-            else
-                return null;
-        }
-        List<bool> Tobool(int[] value)
-        {
-            List<bool> arr = new List<bool>();
-
-            for (int i = 0; i < value.Length; i++)
-            {
-                if (value[i] == 0)
-                    arr.Add(false);
-
-                else if (value[i] == 1)
-                    arr.Add(true);
-
-                else
-                    break;
-            }
-
-            if (arr.Count == value.Length)
-                return arr;
-
-            else
-                return null;
         }
 
         List<bool> UnFormat(List<List<bool>> val)
@@ -591,18 +507,63 @@ namespace KroglpProject
     {
         static Kernel _Kernel;
 
-        public static void Initialize(string path)
-        {
-            _Kernel = new Kernel(path);
-        }
+        public static void Initialize(string path) { _Kernel = new Kernel(path); }
 
+        public static void Input(string data) { _Kernel.Input(Tobool(data)); }
+        public static void Input(int[] data) { _Kernel.Input(Tobool(data)); }
+        public static void Input(bool[] data) { _Kernel.Input(data); }
 
+        public static bool[] Output() { return _Kernel.Output(); }
 
-        public static void Input(string data) { _Kernel.Process(data); }
-        public static void Input(int[] data) { _Kernel.Process(data); }
+        public static List<List<List<bool>>> DataScan() { return _Kernel.State; }
 
-        public static List<List<List<bool>>> Output() { return _Kernel.Return; }
+        public static bool[] Tobool(string value)
+		{
+			List<char> _value = new List<char>(value.Trim().ToCharArray());
 
+            bool[] arr = new bool[_value.Count];
+
+			for (int i = 0; i < _value.Count; i++)
+			{
+                if (_value[i].ToString() == "0")
+                    arr[i] = false;
+
+                else if (_value[i].ToString() == "1")
+                    arr[i] = true;
+
+                else
+                    break;
+			}
+
+			if (arr.Length == value.Length)
+				return arr;
+
+			else
+				return null;
+		}
+
+		public static bool[] Tobool(int[] value)
+		{
+            bool[] arr = new bool[value.Length];
+
+			for (int i = 0; i < value.Length; i++)
+			{
+                if (value[i] == 0)
+                    arr[i] = false;
+
+                else if (value[i] == 1)
+                    arr[i] = true;
+
+                else
+                    break;
+			}
+
+			if (arr.Length == value.Length)
+				return arr;
+
+			else
+				return null;
+		}
 
         public static void Save() { _Kernel.Close(); }
     }
@@ -634,16 +595,16 @@ namespace KroglpProject
 
             else if (command == "Output")
             {
-                for (int i = 0; i < KernelAPI.Output().Count; i++)
+                for (int i = 0; i < KernelAPI.DataScan().Count; i++)
                 {
                     Console.WriteLine("Mem " + i);
-                    for (int j = 0; j < KernelAPI.Output()[i].Count; j++)
+                    for (int j = 0; j < KernelAPI.DataScan()[i].Count; j++)
                     {
                         Console.Write("\t" + j + " : ");
 
-                        for (int k = 0; k < KernelAPI.Output()[i][j].Count; k++)
+                        for (int k = 0; k < KernelAPI.DataScan()[i][j].Count; k++)
                         {
-                            if (KernelAPI.Output()[i][j][k] == true)
+                            if (KernelAPI.DataScan()[i][j][k] == true)
                                 Console.Write("1");
 
                             else

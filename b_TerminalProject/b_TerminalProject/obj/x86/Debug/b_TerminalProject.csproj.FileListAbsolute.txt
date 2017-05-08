@@ -1,0 +1,5 @@
+/Users/BaeBae/Documents/TeamBlock/b_TerminalProject/b_TerminalProject/bin/Debug/b_TerminalProject.exe
+/Users/BaeBae/Documents/TeamBlock/b_TerminalProject/b_TerminalProject/bin/Debug/b_TerminalProject.pdb
+/Users/BaeBae/Documents/TeamBlock/b_TerminalProject/b_TerminalProject/obj/x86/Debug/b_TerminalProject.csproj.CoreCompileInputs.cache
+/Users/BaeBae/Documents/TeamBlock/b_TerminalProject/b_TerminalProject/obj/x86/Debug/b_TerminalProject.exe
+/Users/BaeBae/Documents/TeamBlock/b_TerminalProject/b_TerminalProject/obj/x86/Debug/b_TerminalProject.pdb
