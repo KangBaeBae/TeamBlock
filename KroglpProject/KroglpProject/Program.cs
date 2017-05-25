@@ -6,14 +6,14 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace KroglpProject
 {
     
-    interface IKroglpAPI
+    interface IKroglp
     {
         void Input(bool[] Event);
 
         bool[] Output();
     }
 
-    class Kernel : IKroglpAPI
+    class Kernel : IKroglp
     {
         #region Processing
 
@@ -566,6 +566,48 @@ namespace KroglpProject
 		}
 
         public static void Save() { _Kernel.Close(); }
+    }
+
+    class StandardAPI
+    {
+        string[,] db;
+        List<string> properties = new List<string>();
+
+        public StandardAPI(string path)
+        {
+            Stream st = File.Open(path, FileMode.Open);
+
+            BinaryFormatter bF = new BinaryFormatter();
+            StandardAPI obj = (StandardAPI)bF.Deserialize(st);
+            db = obj.db;
+            obj = null;
+
+            st.Close();
+        }
+
+        public void Add(string name, string[] data)
+        {
+            properties.Add("!" + name);
+            for (int i = 0; i < data.Length; i++)
+            {
+                properties.Add(data[i]);
+            }
+            properties.Add("_");
+        }
+
+        public void Recompare()
+        {
+            
+        }
+    }
+
+
+
+    interface IVirtualEnv
+	{
+		void Input(bool[] Event);
+
+        string[] Properties { get; set; }
     }
 
     class MainClass

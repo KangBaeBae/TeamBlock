@@ -827,9 +827,67 @@ namespace b_TerminalProject
 
     }
 
+    class BinaryConvent
+    {
+        List<List<string>> db = new List<List<string>>();
+
+        public void Add()
+        {
+            Console.Write("Enter Category : ");
+            string category = Console.ReadLine();
+
+            Console.Write("Enter value : ");
+            string val = Console.ReadLine();
+
+            if (db.Count >= 1)
+            {
+				for (int i = 0; i < db.Count; i++)
+				{
+                    if (i == db.Count - 1 && db[i][0] != category)
+                    {
+                        db.Add(new List<string>());
+                        db[i + 1].Add(category);
+                        db[i + 1].Add(val);
+                        break;
+                    }
+
+                    else if (db[i][0] == category)
+                    {
+                        db[i].Add(val);
+                    }
+				}
+            }
+
+            else
+            {
+                db.Add(new List<string>());
+                db[0].Add(category);
+                db[0].Add(val);
+            }
+        }
+
+        public void ShowCategory()
+        {
+            Console.WriteLine("hlhlhl");
+            for (int i = 0; i < db.Count; i++)
+            {
+                Console.Write("\t1 Category\t:\t" + db[i][0]);
+                for (int j = 1; j < db[i].Count; j++)
+                {
+                    Console.WriteLine();
+                    Console.Write("\t\t   Value : " + db[i][j]);
+                }
+                Console.WriteLine();
+            }
+        }
+    }
 
 	class MainClass
     {
+        static bool IsBinary = false;
+
+        static StandBy sb = new StandBy();
+        static BinaryConvent bc = new BinaryConvent();
 
         public static void Main(string[] args)
         {
@@ -840,23 +898,51 @@ namespace b_TerminalProject
         {
             Console.Write("block.Terminal$ ");
             string key = Console.ReadLine();
-            if (key != "quit")
+            if (key == "BinaryConvent")
+                IsBinary = true;
+
+            if (key == "quit")
             {
-                Search(key);
+                if (IsBinary == true)
+                {
+                    IsBinary = false;
+                    Stand();
+                }
+
+                else {}
+            }
+
+            else if (key == "BinaryConvent")
+            {
+                IsBinary = true;
                 Stand();
             }
 
-            else {}
+            else
+            {
+				Search(key);
+				Stand();
+            }
         }
 
         static void Search(string value)
         {
             try
             {
-                StandBy sb = new StandBy();
-                Type type = sb.GetType();
-                MethodInfo callFunc = type.GetMethod(value, BindingFlags.Instance | BindingFlags.Public);
-                callFunc.Invoke(sb, null);
+                if (IsBinary == true)
+                {
+					Type type = bc.GetType();
+					MethodInfo callFunc = type.GetMethod(value, BindingFlags.Instance | BindingFlags.Public);
+					callFunc.Invoke(bc, null);
+                }
+
+                else
+                {
+					Type type = sb.GetType();
+					MethodInfo callFunc = type.GetMethod(value, BindingFlags.Instance | BindingFlags.Public);
+					callFunc.Invoke(sb, null);
+                }
+
             }
 
             catch
