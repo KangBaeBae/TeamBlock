@@ -38,6 +38,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\EmptyClass.cs" />
     <Compile Include="Library\EmptyClass.cs" />
+    <Compile Include="Library\BinaryControl.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

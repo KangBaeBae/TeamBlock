@@ -8,7 +8,8 @@ using System.Text;
 
 namespace b_TerminalProject.Library
 {
-	public class StandBy
+    
+    class GeneralClass
 	{
 
 		#region Kernel
@@ -258,14 +259,6 @@ namespace b_TerminalProject.Library
 			Console.WriteLine();
 
 
-		}
-
-		public void Help()
-		{
-			MethodInfo[] cf = typeof(StandBy).GetMethods(BindingFlags.Public);
-			for (int i = 0; i < cf.Length; i++)
-				if (cf[i].Name != "Help")
-					Console.WriteLine(cf[i].Name);
 		}
 
 		public void TextWrite()
