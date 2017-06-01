@@ -63,7 +63,10 @@ namespace b_TerminalProject
             }
 
             else if (key == "Help")
+            {
                 Help();
+                Stand();
+            }
 
             else
             {
@@ -87,8 +90,6 @@ namespace b_TerminalProject
                 Stand();
 
             }
-
-            Stand();
         }
 
         public static void Help()

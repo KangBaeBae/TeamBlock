@@ -50,8 +50,10 @@ namespace b_TerminalProject.Library
 
 		public void ShowCategory()
 		{
+            Console.WriteLine("33");
 			for (int i = 0; i < db.Count; i++)
 			{
+                Console.Write("3");
 				Console.Write("\t" + (i + 1) + " Category\t:\t" + db[i][0]);
 				for (int j = 1; j < db[i].Count; j++)
 				{
