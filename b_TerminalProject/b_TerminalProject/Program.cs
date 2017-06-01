@@ -21,6 +21,7 @@ namespace b_TerminalProject
         static string _Adress = "b_TerminalProject.Library.";
         static List<string> nameClass = new List<string>();
 
+        static object Instance;
 
         public static void Main(string[] args)
         {
@@ -33,9 +34,9 @@ namespace b_TerminalProject
         }
 
         static void CallMethod(string MethodName)
-        {
-            var Instance = Assembly.GetExecutingAssembly().CreateInstance(_Adress + _SetClass);
-            Type.GetType(_Adress + _SetClass).GetMethod(MethodName, null).Invoke(Instance, null);
+		{
+			//var Instance = Assembly.GetExecutingAssembly().CreateInstance(_Adress + _SetClass);
+            //Type.GetType(_Adress + _SetClass).GetMethod(MethodName, null).Invoke(Instance, null);
         }
 
 
@@ -55,6 +56,7 @@ namespace b_TerminalProject
                 if (_SetClass != "None")
                 {
                     _SetClass = "None";
+                    Instance = null;
                     Stand();
                 }
 
@@ -77,7 +79,6 @@ namespace b_TerminalProject
 
                     else
                     {
-                        var Instance = Assembly.GetExecutingAssembly().CreateInstance(_Adress + _SetClass);
                         Type.GetType(_Adress + _SetClass).GetMethod(key, BindingFlags.Public | BindingFlags.Instance).Invoke(Instance, null);
                     }
                 }
@@ -124,7 +125,11 @@ namespace b_TerminalProject
             string val = Console.ReadLine();
 
             if (nameClass.Contains(val) == true)
+            {
                 _SetClass = val;
+                Instance = Assembly.GetExecutingAssembly().CreateInstance(_Adress + _SetClass);
+
+            }
 
             else
                 Console.WriteLine("It is nonexistent data");
