@@ -177,7 +177,7 @@ namespace b_TerminalProject.Library
 			string value2 = Console.ReadLine();
 			Console.WriteLine("");
 
-			int[,] array = new int[value1.Count() + 1, value2.Count() + 1];
+			int[,] array = new int[value1.Length + 1, value2.Length + 1];
 
 			char[] st_arr1 = value1.Trim().ToCharArray();
 			char[] st_arr2 = value2.Trim().ToCharArray();
@@ -198,28 +198,33 @@ namespace b_TerminalProject.Library
 				}
 			}
 
+            for (int i = 0; i <= st_arr1.Length; i++)
+            {
+                for (int j = 0; j <= st_arr2.Length; j++)
+                {
+                    if (i == 0 && j > 0)
+                        Console.Write(st_arr2[j - 1] + "\t");
 
-			for (int i = 0; i <= st_arr1.Length; i++)
-			{
-				for (int j = 0; j <= st_arr2.Length; j++)
-				{
-					if (i == 0 && j > 0)
-						Console.Write(st_arr2[i + 1] + "\t");
+                    else if (i > 0 && j == 0)
+                        Console.Write(st_arr1[i - 1] + "\t");
 
-					else if (i > 0 && j == 0)
-						Console.Write(st_arr1[i + 1] + "\t");
+                    else
+                        Console.Write(array[i, j] + "\t");
+                }
 
-					else
-						Console.Write(array[i, j] + "\t");
-				}
-				Console.WriteLine("");
-			}
+                Console.WriteLine();
+            }
 
-			Console.WriteLine("");
-			// array[st_arr1.Length, st_arr2.Length] == 유사도 결과값.
-			Console.WriteLine("Last Num : " + array[st_arr1.Length, st_arr2.Length]);
+
+                 Console.WriteLine("");
+            // array[st_arr1.Length, st_arr2.Length] == 유사도 결과값.
+            Console.WriteLine("Last Num : " + array[st_arr1.Length, st_arr2.Length]);
 			Console.WriteLine("Return : " + Similarity(value1, value2));
 		}
+
+
+		
+        
 
 		public void Format()
 		{

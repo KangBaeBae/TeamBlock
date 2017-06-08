@@ -165,32 +165,32 @@ namespace KroglpProject
             return bl;
         }
 
-        int Similarity(string value1, string value2)
-        {
-            int[,] array = new int[1001, 1001];
+		int Similarity(string value1, string value2)
+		{
+			int[,] array = new int[value1.Length + 1, value2.Length + 1];
 
-            char[] arr1 = value1.Trim().ToCharArray();
-            char[] arr2 = value2.Trim().ToCharArray();
-
-
-            for (int i = 1; i <= arr1.Length; i++)
-                array[i, 0] = i;
-
-            for (int i = 1; i <= arr2.Length; i++)
-                array[0, i] = i;
+			char[] arr1 = value1.Trim().ToCharArray();
+			char[] arr2 = value2.Trim().ToCharArray();
 
 
-            for (int i = 1; i <= arr1.Length; i++)
-            {
-                for (int j = 1; j <= arr2.Length; j++)
-                {
-                    if (arr1[i - 1] == arr2[j - 1]) array[i, j] = array[i - 1, j - 1];
-                    else array[i, j] = Math.Min(array[i - 1, j - 1] + 1, Math.Min(array[i, j - 1] + 1, array[i - 1, j] + 1));
-                }
-            }
+			for (int i = 1; i <= arr1.Length; i++)
+				array[i, 0] = i;
 
-            return array[arr1.Length, arr2.Length];
-        }
+			for (int i = 1; i <= arr2.Length; i++)
+				array[0, i] = i;
+
+
+			for (int i = 1; i <= arr1.Length; i++)
+			{
+				for (int j = 1; j <= arr2.Length; j++)
+				{
+					if (arr1[i - 1] == arr2[j - 1]) array[i, j] = array[i - 1, j - 1];
+					else array[i, j] = Math.Min(array[i - 1, j - 1] + 1, Math.Min(array[i, j - 1] + 1, array[i - 1, j] + 1));
+				}
+			}
+
+			return array[arr1.Length, arr2.Length];
+		}
         int Similarity(List<bool> value1, List<bool> value2)
         {
             string val1 = BoolToInt(value1);
