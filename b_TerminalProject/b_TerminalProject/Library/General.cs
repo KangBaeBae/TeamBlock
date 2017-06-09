@@ -469,6 +469,7 @@ namespace b_TerminalProject.Library
 
 			return array[arr1.Length, arr2.Length];
 		}
+
 		int Similarity(List<bool> value1, List<bool> value2)
 		{
 			string val1 = BoolToInt(value1);

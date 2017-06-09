@@ -1,9 +1,9 @@
 ﻿<Properties StartupConfiguration="{BAE9DEF4-4523-4705-BA1F-89D51C9F9402}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="b_TerminalProject/Library/General.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="b_TerminalProject/Library/BinaryControl.cs">
     <Files>
-      <File FileName="b_TerminalProject/Program.cs" Line="110" Column="43" />
-      <File FileName="b_TerminalProject/Library/BinaryControl.cs" Line="158" Column="4" />
-      <File FileName="b_TerminalProject/Library/General.cs" Line="222" Column="37" />
+      <File FileName="b_TerminalProject/Program.cs" Line="114" Column="10" />
+      <File FileName="b_TerminalProject/Library/BinaryControl.cs" Line="159" Column="51" />
+      <File FileName="b_TerminalProject/Library/General.cs" Line="449" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
